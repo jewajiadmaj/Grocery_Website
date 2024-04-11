@@ -3,6 +3,10 @@
     margin: 0%;
     font-family: "Poppins", sans-serif;
 }
+.heading{
+    font-family: "Dosis", sans-serif;
+  font-optical-sizing: auto;
+}
 
 .data {
 
@@ -31,4 +35,9 @@
     font-size: 18px;
     text-align: center;
     font-weight: 600;
+}
+
+.banner img{
+    width: 100%;
+    object-fit: contain;
 }
