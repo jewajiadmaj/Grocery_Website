@@ -1,0 +1,43 @@
+* {
+    padding: 0%;
+    margin: 0%;
+    font-family: "Poppins", sans-serif;
+}
+.heading{
+    font-family: "Dosis", sans-serif;
+  font-optical-sizing: auto;
+}
+
+.data {
+
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+@media only screen and (max-width: 1024px) {
+    .data {
+
+        margin-left: 5.8px;
+        margin-right: 5.8px;
+    }
+}
+
+.staging {
+    padding-top: 5px;
+    padding-bottom: 1px;
+    background-color: rgb(236, 236, 86);
+    width: 100%;
+    border-radius: 10px;
+}
+
+.staging p {
+    font-size: 18px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.banner img{
+    width: 100%;
+    object-fit: contain;
+}
