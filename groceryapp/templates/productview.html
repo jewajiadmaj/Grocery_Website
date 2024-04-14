@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container my-5">
+
+    <div class="card details-card p-0">
+        <div class="productper row">
+
+            <div class="col-md-6 col-sm-12">
+                <img class="img-fluid details-img" src="{{product.image_url}}" alt="">
+            </div>
+            <div class="col-md-6 col-sm-12 description-container p-5">
+                <div class="main-description">
+                    <p class="product-category mb-0">{{product.category}}</p>
+                    <h3>{{product.title}}</h3>
+                    <hr>
+                    <p class="product-price">₹ {{product.price}} /{{product.qty}}{{product.unit}}</p>
+                    <form class="add-inputs" method="post">
+                        {% csrf_token %}
+                        <input type="number" class="form-control" id="cart_quantity" name="cart_quantity" value="1" min="1" max="10">
+                        <input type="text" value="{{product.id}}" hidden>
+                        <button name="add_to_cart" type="submit" class="btn btn-primary btn-lg">Add to cart</button>
+                    </form>
+                    <form class="add-inputs" method="post">
+                        <button name="add_to_cart" type="submit" class="btn btn-primary btn-lg">Add to Wishlist</button>
+                    </form>
+                    <div style="clear:both"></div>
+
+                    <hr>
+
+
+                    <p class="product-title mt-4 mb-1">About this product</p>
+                    <p class="product-description mb-4">
+                        {{product.description}}
+                    </p>
+
+                    <!-- <hr> -->
+
+                    <!-- <p class="product-title mt-4 mb-1">Share this product</p>
+                    <ul class="social-list">
+                        <li><a href="#"><i class="fa-brands fa-facebook"></a></i></li>
+                        <li><a href="#"><i class="fa-brands fa-twitter"></a></i></li>
+                        <li><a href="#"><i class="fa-brands fa-square-instagram"></a></i></li>
+
+                    </ul> -->
+
+
+
+
+
+
+                </div>
+
+
+
+
+            </div>
+        </div>
+        <!-- End row -->
+    </div>
+
+{% endblock %}

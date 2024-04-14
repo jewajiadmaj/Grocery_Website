@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -9,8 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="../static/css/index.css">
-    <link rel="stylesheet" href="../static/css/navbar.css">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static  'css/navbar.css' %}">
+    
 
     <!-- dosis -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,61 +30,55 @@
   
     <nav class="navbar navbar-expand-md bg-body-tertiary">
         <div class="container-xl">
-          <a style="color: black;" class="navbar-brand" href="#">
-            Jivajiadmaji&Co.
+          <a style="color: black;" class="navbar-brand" href="/">
+            <img style="width: 120px; height: 120px;" src="{% static 'images/jewajiadamjico-high-resolution-logo-transparent.png' %}" alt="">
           </a>
           <img style="width: 80px;" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" src="../static/images/hamburger--1--1@1x.png" alt="">
           
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="/about">About</a>
               </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/about">Contact-Us</a>
+              </li>
+    
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
+                  <i class='bx bxs-user'></i> {% if customer %}{{customer.first_name}} {% else %} Account {% endif %}
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  {% if customer %}
+                  <li><a class="dropdown-item" href="/account"><i class='bx bxs-user'></i> Account Details</a></li>
+                  <li><a class="dropdown-item" href="/cart"><i class='bx bxs-cart'></i> Cart</a></li>
+                  <li><a class="dropdown-item" href="/order"><i class='bx bxs-box' ></i> orders</a></li>
+                  <li><a class="dropdown-item" href="/login"><i class='bx bxs-heart'></i> Wishlist</a></li>
+                   {% else %}
+                   <li><a class="dropdown-item" href="/cart"><i class='bx bxs-cart'></i> Cart</a></li>
+                  <li><a class="dropdown-item" href="/signin"><i class='bx bxs-user-account'></i> Sign in / sign up</a></li>
+                  {% endif %}
                   <li>
+                    {% if customer %}
                     <hr class="dropdown-divider">
                   </li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  
+                  <li><a class="dropdown-item" href="/logout"><i class='bx bxs-log-out' ></i> Logout </a></li>
+                  {% endif %}
                 </ul>
               </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link">Another Link</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link">Another Link</a>
-              </li>
+             
+            
             </ul>
             <div class="search-and-icons">
               <form class="d-flex mb-2 me-2" role="search">
                 <input class="form-control me-2" type="search" aria-label="Search">
               </form>
-              <div class="user-icons d-flex mb-2">
-                <div class="profile"><i class='bx bxs-user'></i></div>
-                <div class="wishlist"><i class='bx bxs-heart' ></i></div>
-                <div class="cart"><i class='bx bxs-cart'></i></div>
-              </div>
+         
             </div>
             <div class="contact-info d-md-flex">
               <p>+91 90012 98588 </p>
@@ -101,7 +97,7 @@
 
  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+<script src="{% static  'js/signin.js' %}"></script>
 
   </body>
 </html>
