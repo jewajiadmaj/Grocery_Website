@@ -12,7 +12,11 @@ def index(request):
 
 
     category = Category.objects.all()
-    product=Product.objects.filter(active=True)
+    category_id = request.GET.get('category')
+    if category_id:
+            product= Product.objects.filter(category = category_id, active=True)
+    else:
+        product=Product.objects.filter(active=True)
     paras={'category':category,'product':product,'customer':customer}
     return render(request, 'index.html',paras)
 
