@@ -5,17 +5,29 @@
 <div class="row">
     <!-- rightmain -->
     <div  class="col-lg-4">
-        <h4 class="heading">Category:</h4>
-        <div class="list-group mt-2">
-            <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
-            All Products
-            </a>
-            {% for i in category %}
-            <a href="#" class="list-group-item list-group-item-action">{{i.name}}</a>
+        <div class="dropdown">
+          <button style="background-color: #ffa500; color: aliceblue;" class="btn btn dropdown-toggle active mt-2 mb-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Category
+          </button>
+          <ul style="width: 100%; height: 400px; overflow: scroll;"  class="dropdown-menu">
+            <div class="list-group mt-2">
+              <a href="/#store" class="list-group-item list-group-item-action active" aria-current="true">
+              All Products
+              </a>
+              {% for i in category %}
+              <a href="/?category={{i.id}}#store" class="list-group-item list-group-item-action">{{i.name}}</a>
+            
+              {% endfor %}
           
-            {% endfor %}
-        
-          </div>
+            </div>
+          </ul>
+        </div>
+
+
+
+
+
+       
     </div>
 
     <!-- left main -->
@@ -52,7 +64,7 @@
     </div>
 </div>
 <!-- store -->
-<div class="store">
+<div id="store" class="store">
   <h4 class="heading">Store:</h4>
 
   <div class="product-container">
@@ -77,47 +89,6 @@
       
       
       
-      
-      
-      <div class="product-card">
-      <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=384&q=80" alt="Product Name" class="product-image">
-      <h3 class="product-name">Product Name</h3>
-      <p class="product-description">Product Description</p>
-      <div class="product-price">$99.99</div>
-      <button class="add-to-cart-button">Add to Cart</button>
-    </div>
-
-    <div class="product-card">
-      <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=384&q=80" alt="Product Name" class="product-image">
-      <h3 class="product-name">Product Name</h3>
-      <p class="product-description">Product Description</p>
-      <div class="product-price">$99.99</div>
-      <button class="add-to-cart-button">Add to Cart</button>
-    </div>
-     
-    <div class="product-card">
-      <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=384&q=80" alt="Product Name" class="product-image">
-      <h3 class="product-name">Product Name</h3>
-      <p class="product-description">Product Description</p>
-      <div class="product-price">$99.99</div>
-      <button class="add-to-cart-button">Add to Cart</button>
-    </div>
-     
-    <div class="product-card">
-      <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=384&q=80" alt="Product Name" class="product-image">
-      <h3 class="product-name">Product Name</h3>
-      <p class="product-description">Product Description</p>
-      <div class="product-price">$99.99</div>
-      <button class="add-to-cart-button">Add to Cart</button>
-    </div>
-     
-     
-      
-      
-      
-        
- 
-     
       
       
       
