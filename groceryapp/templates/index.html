@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+<h1>{{email}}</h1>
 <div class="data">
 <div class="row">
     <!-- rightmain -->
@@ -49,6 +50,79 @@
 
 
     </div>
+</div>
+<!-- store -->
+<div class="store">
+  <h4 class="heading">Store:</h4>
+
+  <div class="product-container">
+
+ {% for i in product %}
+
+    <div class="product-card">
+      <img src="{{i.image_url}}" alt="Product Name" class="product-image">
+      <h3 class="product-name">{{i.title}}</h3>
+      <p class="product-description">{{i.description}}</p>
+      <div class="product-price">₹ {{i.price}} /{{i.qty}}{{i.unit}}</div>
+      <a style="text-decoration: none; color: white;" href="/product/{{i.id}}" class="add-to-cart-button">View</a>
+    </div>
+
+  {% endfor %}
+      
+      
+      
+      
+
+      
+      
+      
+      
+      
+      
+      <div class="product-card">
+      <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=384&q=80" alt="Product Name" class="product-image">
+      <h3 class="product-name">Product Name</h3>
+      <p class="product-description">Product Description</p>
+      <div class="product-price">$99.99</div>
+      <button class="add-to-cart-button">Add to Cart</button>
+    </div>
+
+    <div class="product-card">
+      <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=384&q=80" alt="Product Name" class="product-image">
+      <h3 class="product-name">Product Name</h3>
+      <p class="product-description">Product Description</p>
+      <div class="product-price">$99.99</div>
+      <button class="add-to-cart-button">Add to Cart</button>
+    </div>
+     
+    <div class="product-card">
+      <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=384&q=80" alt="Product Name" class="product-image">
+      <h3 class="product-name">Product Name</h3>
+      <p class="product-description">Product Description</p>
+      <div class="product-price">$99.99</div>
+      <button class="add-to-cart-button">Add to Cart</button>
+    </div>
+     
+    <div class="product-card">
+      <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=384&q=80" alt="Product Name" class="product-image">
+      <h3 class="product-name">Product Name</h3>
+      <p class="product-description">Product Description</p>
+      <div class="product-price">$99.99</div>
+      <button class="add-to-cart-button">Add to Cart</button>
+    </div>
+     
+     
+      
+      
+      
+        
+ 
+     
+      
+      
+      
+    </div>
+
 </div>
 </div>
 

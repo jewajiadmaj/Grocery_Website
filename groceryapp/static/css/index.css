@@ -6,6 +6,9 @@
 .heading{
     font-family: "Dosis", sans-serif;
   font-optical-sizing: auto;
+  font-weight: 600;
+  letter-spacing: 1px;
+   text-transform: uppercase;
 }
 
 .data {
@@ -40,4 +43,166 @@
 .banner img{
     width: 100%;
     object-fit: contain;
+}
+
+/* store */
+.product-container{
+    display:flex;
+    flex-wrap:wrap;
+     width:100%;
+    justify-content: space-between;
+  } 
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+      background-color: white; 
+    
+    padding-bottom:1%;
+    padding-left: 0%;
+    
+  
+  }
+  
+  .product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .product-name {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 10px 0;
+    text-align: center;
+  }
+  
+  .product-description {
+    font-size: 0.875rem;
+    margin: 10px 0;
+    text-align: center;
+  }
+  
+  .product-price {
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin: 10px 0;
+    color: orange;
+  }
+  
+  .add-to-cart-button {
+    padding: 10px 20px;
+    background-color: orange;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+  
+  .add-to-cart-button:hover {
+    background-color: darkorange;
+  }
+  
+  .product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+   }
+  .original-price {
+    text-decoration: line-through;
+    color: lightgray;
+    font-size: 0.875rem;
+  }
+  
+  .discount-price {
+    color: orange;
+    font-size: 1.125rem;
+    font-weight: bold;
+  }
+
+  /* product view */
+.details-img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 20px;
+}
+
+.details-card {
+    width: 100%;
+    margin: auto;
+    padding:0%;
+}
+.productper{
+  padding: 10px;
+}
+
+
+.description-container {
+    position: relative;
+    /* height: 900px; */
+}
+
+.main-description1 {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.main-description h3 {
+    font-size: 2rem;
+}
+
+.add-inputs,
+.add-inputs input {
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 2px;
+}
+
+.add-inputs button {
+    border-radius: 0;
+}
+
+.add-inputs input {
+    height: 48px;
+    width: 65px;
+    border-radius: 0;
+}
+
+
+.product-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+  
+
+.social-list {
+    padding: 0;
+    list-style: none;
+}
+
+.social-list li {
+    float: left;
+    padding: 6px 8px;
+    margin-right: 12px;
+}
+
+.social-list li a {
+    color: black;
+    font-size: 2rem;
+}
+
+.social-list li a i {
+    font-size: 2rem;
 }

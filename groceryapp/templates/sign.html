@@ -1,0 +1,51 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static  'css/signin.css' %}">   
+
+<div class="container mt-4 mb-4" id="container">
+  <div class="form-container sign-up-container">
+    <form method="post" name="form1">
+      {% csrf_token %}
+      <h1 class="ctitle">Create Account</h1>
+      <input type="text" name="first_name" placeholder="First Name" />
+      <input type="text" name="last_name" placeholder="Last Name" />
+      <input type="email" name="email" placeholder="Email" />
+      <input type="password" name="password" placeholder="Password" />
+      <input type="text" name="mobile_number" placeholder="Mobile Number" />
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+  <div class="form-container sign-in-container">
+    <form method="post">
+      {% csrf_token %}
+      <h1 class="ctitle">Sign in</h1>
+       {% for message in messages %}
+            <p style="color: rgb(240, 32, 32);" {% if message.tags %} class="{{ message.tags }} mt-2"{% endif %}>{{ message }}</p>
+        {% endfor %}
+      <input type="email" name="email" placeholder="Email" />
+      <input type="password" name="password" placeholder="Password" />
+      <a class="as" href="#">Forgot your password?</a>
+      <button>Sign In</button>
+    </form>
+  </div>
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-left">
+        <h1 class="ctitle">Welcome Back!</h1>
+        <p>To keep connected with us please login with your personal info</p>
+        <button class="ghost" id="signIn">Sign In</button>
+      </div>
+      <div class="overlay-panel overlay-right">
+        <h1 class="ctitle">Hello, Explorer!</h1>
+        <p>Enter your personal details and start journey with us</p>
+        <button class="ghost" id="signUp">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    
+    {% endblock %}

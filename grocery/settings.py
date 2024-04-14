@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-#i=p973qr(vhc@2b3p33ctxkf(rg6q0612#ts7_qq#tm@8n^%&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://jewajiadamji.pythonanywhere.com/','*']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -118,6 +119,11 @@ import os
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join('groceryapp/static/')]
+
+
+STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'groceryapp/static/upload')
 MEDIA_URL = '/media/'
 
