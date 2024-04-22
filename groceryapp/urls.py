@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from . import views
+from .middlewares.auth import  auth_middleware
 
 urlpatterns = [
   path('', views.index, name='home'),
@@ -25,6 +26,6 @@ urlpatterns = [
    path('signin/', views.sign, name='sign'),
    path('logout/', views.logout, name='logout'),
    path('cart/', views.carts, name='cart'),
-   path('account/', views.account, name='cart'),
-    path('order/', views.order, name='order'),
+   path('account/',auth_middleware( views.account), name='cart'),
+    path('order/',auth_middleware( views.order), name='order'),
    ]
