@@ -32,6 +32,16 @@ button {
   background-color: #666;
   color: #fff;
 }
+.al{
+  background-color: #666;
+  color: #fff;
+  text-decoration: none;
+
+}
+.al:hover{
+  color: #e6e2e2;
+
+}
 
 button:hover,
 button:focus {

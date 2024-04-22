@@ -1,0 +1,373 @@
+
+/* social colors */
+
+
+.list-group {
+  border-color: $cloud !important;
+  .list-group-item {
+    border-color: $cloud !important;
+  }
+}
+
+// *, input, body, a, h1,h2,h3,h4,h5,h6, p {
+//   font-family: "Avenir", arial, sans-serif;
+// }
+
+h1,h2,h3,h4,h5,h6 {
+  font-weight: 500 !important;
+}
+
+a.account-card {
+  text-decoration: none;
+  color: unset;
+  i.fa {
+    font-size: 42px;
+    width: 45px;
+  }
+  .card {
+    background: $snow;
+    border: 1px solid $cloud;
+    &:hover {
+      background: $white;
+    }
+    &:active {
+      background: $fog;
+    }
+  }
+}
+
+.bg-yellow {
+  background: $yellow;
+  color: $carbon;
+}
+
+.list-group-item-action {
+  background: $snow;
+  .fa {
+    width: 22px;
+  }
+  .fa.fa-angle-right {
+    font-size: 20px;
+    position: absolute;
+    right: 5px;
+    top: 14px;
+  }
+}
+
+.coupon {
+  background: $snow;
+  border: 2px dashed $cloud !important;
+}
+
+.reward-status-box {
+  position: relative;
+  width: 100%;
+  color: $white;
+  background: darken(saturate($blue, 15%), 15%);
+  border: 2px solid saturate($blue, 15%);
+  border-radius: 5px;
+  .reward-status {
+    width: 60%;
+    background: saturate($blue, 15%);
+    padding: 15px;
+  }
+  .current-status {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    color: $white;
+  }
+  .current-status-2 {
+    position: absolute;
+    right: 15px;
+    top: 41px;
+    color: $white;
+  }
+}
+
+
+
+// Utilities
+
+.text-orange {
+  color: $orange !important;
+}
+
+.text-carbon {
+  color: $carbon !important;
+}
+
+.text-pebble {
+  color: $pebble !important;
+}
+
+.text-gray {
+  color: $gray !important;
+}
+
+.text-cloud {
+  color: $cloud !important;
+}
+
+.text-blue {
+  color: $blue !important;
+}
+
+.text-gray {
+  color: $gray !important;
+}
+
+.text-pale-sky {
+  color: $gray !important;
+}
+
+.bg-black {
+  background: $black !important;
+}
+
+.bg-snow {
+  background: $snow !important;
+}
+
+.bg-fog {
+  background: $fog !important;
+}
+
+.bb1-cloud {
+  border-bottom: 1px solid $cloud;
+}
+
+.fs-14 {
+  font-size: 14px !important;
+}
+
+.fs-22 {
+  font-size: 22px !important;
+}
+
+.tanga-header {
+  .navbar-brand {
+    margin-bottom: 5px;
+  }
+  .nav-link {
+    color: $gray;
+    &:hover {
+      color: $white;
+    }
+    &:active {
+      color: $gray;
+    }
+  }
+}
+
+.tanga-navbar {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  &:-webkit-scrollbar {
+    display: none;
+  }
+  .nav-link {
+    white-space: nowrap;
+    color: $pebble;
+    &:hover {
+      color: $charcoal;
+    }
+    &:active {
+      color: $pebble;
+    }
+  }
+}
+
+.btn-primary {
+  background: $red;
+  border-color: $red;
+  cursor: pointer;
+  &:hover {
+    background: lighten($red, 10%);
+    border-color: lighten($red, 10%);
+  }
+}
+
+.btn-secondary {
+  background: $white !important;
+  color: $charcoal !important;
+  border-color: $cloud !important;
+  cursor: pointer;
+  &:hover {
+    color: $charcoal !important;
+    background: $snow !important;
+  }
+  &:active {
+    color: $pebble !important;
+    background: $fog !important;
+  }
+  &:focus {
+    color: $pebble !important;
+    background: $fog !important;
+    outline: 0 !important;
+  }
+}
+
+.mobile-nav {
+  position: fixed;
+  bottom: 0;
+  z-index: 50;
+  display: block;
+  width: 100%;
+  background: $black;
+  a {
+    text-decoration: none !important;
+    cursor: pointer;
+    color: $gray;
+    font-size: 12px;
+    float: left;
+    width: 20%;
+    display: inline-block;
+    text-align: center;
+    margin: 0 !important;
+    padding: 8px 0px 5px 0px;
+    &.active {
+      background: $carbon;
+      color: $white;
+    }
+    i {
+      font-size: 23px;
+      display: block;
+      margin: 0 auto;
+      margin-bottom: 2px;
+    }
+  }
+}
+
+.fs-18 {
+  font-size: 18px !important;
+}
+.fs-22 {
+  font-size: 22px !important;
+}
+
+.bg-snow {
+  background: $snow !important;
+}
+
+.card {
+  border-color: $cloud !important;
+}
+
+.text-pebble {
+  color: $pebble !important;
+}
+.text-charcoal {
+  color: $charcoal !important;
+}
+
+.bottom-drawer {
+  position: fixed;
+  bottom: 56px;
+  width: 100%;
+  border-top: 1px solid $cloud;
+}
+
+.bg-white {
+  background: $white !important;
+}
+
+.list-group {
+  border-color: $cloud !important;
+}
+.list-group-item {
+  border-color: $cloud !important;
+}
+
+.text-red {
+  color: $red !important;
+}
+
+.text-green {
+  color: $green !important;
+}
+.text-link-blue {
+  color: $link-blue !important;
+}
+
+.form-control {
+  background: $snow;
+  border-color: $cloud !important;
+}
+
+.bd-2-cloud {
+  border: 2px dashed $cloud;
+}
+.b-1-green {
+  border: 2px solid $green !important;
+} 
+
+.br-8 {
+  border-radius: 5px;
+}
+
+.address-radio {
+  .address-label {
+    padding: 1rem;
+    margin-bottom: 0 !important;
+  }
+
+  [type="radio"]:checked,
+  [type="radio"]:not(:checked) {
+    position: absolute;
+    opacity: 0;
+
+    & + label {
+      position: relative;
+      padding-left: 50px;
+      width: 100%;
+      cursor: pointer;
+      line-height: 20px;
+      display: inline-block;
+      color: $charcoal;
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 1rem;
+        top: 1rem;
+        width: 20px;
+        height: 20px;
+        border: 2px solid $cloud;
+        border-radius: 50%;
+        background: #fff;
+      }
+
+      &:after {
+        content: '';
+        width: 12px;
+        height: 12px;
+        background: $green;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+      }
+    }
+  }
+
+  [type="radio"]:not(:checked) + label:after {
+      opacity: 0;
+      transform: scale(0);
+  }
+
+  [type="radio"]:checked + label:after {
+      opacity: 1;
+      transform: scale(1);
+  }
+
+  [type="radio"]:not(:checked) ~ label p {
+    display: none;
+  }
+
+  [type="radio"]:checked ~ label p {
+    display: unset;
+  }
+}

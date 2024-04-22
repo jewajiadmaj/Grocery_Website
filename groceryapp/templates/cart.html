@@ -32,7 +32,7 @@
         <input style="text-align: center;" type="number" value="{{ quantity }}" class="quantity-field" readonly>
       </div>
       <div class="subtotal">{{subtotal}}</div>
-      <form method="post" class="remove">
+      <form method="post" action="/cart/" class="remove">
         {% csrf_token %}
         <input type="hidden" value="{{ product.id }}" name="product_id">
         <button type="submit">Remove</button>
@@ -53,20 +53,37 @@
       </div>
       <div class="summary-delivery">
         <select name="delivery-collection" class="summary-delivery-selection">
-          <option value="0" selected="selected">Select Collection or Delivery</option>
-          <option value="collection">Collection</option>
+          <option value="0" selected="selected">Cash on Delivery</option>
+          <!-- <option value="collection">Collection</option>
           <option value="first-class">Royal Mail 1st Class</option>
           <option value="second-class">Royal Mail 2nd Class</option>
-          <option value="signed-for">Royal Mail Special Delivery</option>
+          <option value="signed-for">Royal Mail Special Delivery</option> -->
         </select>
       </div>
       <div class="summary-total">
         <div class="total-title">Total</div>
         <div class="total-value final-value" id="basket-total">{{total}}</div>
       </div>
+      {% if total > 499 %}
       <div class="summary-checkout">
-        <button class="checkout-cta">Go to Secure Checkout</button>
+        {% if customer %}
+          {% if customer.address %}
+          <form method="post">
+          {% csrf_token %}
+        <button class="checkout-cta">Purchase Order</button>
+      </form>
+          {% else %}
+          <p style="color: red;">Address Not Found </p>
+          <a href="/account#address" class="al checkout-cta">Update Accout</a>
+          {% endif %}
+        {% else %}
+        <a href="/signin" class="al checkout-cta">Login</a>
+        {% endif %}
+
       </div>
+      {% else %}
+      <p>order is less then 499</p>
+      {% endif %}
     </div>
   </aside>
 </main>

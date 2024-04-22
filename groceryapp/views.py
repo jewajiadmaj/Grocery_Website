@@ -1,7 +1,8 @@
 from django.shortcuts import render,get_object_or_404,HttpResponse,redirect
-from .models import Category,Product,Customer
+from .models import Category,Product,Customer,Order
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
+import datetime
 # Create your views here.
 def index(request):
     customer_id = request.session.get('customer_id')
@@ -110,33 +111,105 @@ def logout(request):
     request.session.clear()
     return redirect(sign)
 
-def cart(request):
+def carts(request):
     customer_id = request.session.get('customer_id')
     if customer_id:
         customer = Customer.objects.get(id=customer_id)
     else:
         customer = None
-
-    if request.method == 'POST':
-        product_id_to_remove = int(request.POST.get('product_id'))  # Get the product_id to remove from the form submission
-        cart = request.session.get('cart', [])
-        
-        # Remove the product from the cart
-        updated_cart = [item for item in cart if item['product_id'] != product_id_to_remove]
-        
-        request.session['cart'] = updated_cart  # Update cart in session
-        return redirect('cart')  # Redirect to the cart page after removing the product
-
     cart = request.session.get('cart', [])
     products = []
     total=[]
+    order_product=[]
+    order_name=[]
+    order_qty=[]
+    order_subtotal=[]
     for item in cart:
         product = get_object_or_404(Product, id=item['product_id'])
-        subtotal=product.price*item['quantity']
+        order_product.append(product.id)
+        order_name.append(product.title)
+        order_qty.append(item['quantity'])
+        subtotal=float(product.price*item['quantity'])
+        order_subtotal.append(subtotal)
         products.append([product,item['quantity'],subtotal])
         total.append(float(subtotal))
     
     total=sum(total)
 
+    if request.method == 'POST':
+        if 'product_id' in request.POST:
+            product_id_to_remove = int(request.POST.get('product_id'))  # Get the product_id to remove from the form submission
+            cart = request.session.get('cart', [])
+        
+            # Remove the product from the cart
+            updated_cart = [item for item in cart if item['product_id'] != product_id_to_remove]
+        
+            request.session['cart'] = updated_cart  # Update cart in session
+            return redirect(carts)  # Redirect to the cart page after removing the product
+
+    
+        else:
+            fullname=customer.first_name+" "+customer.last_name
+            x = datetime.datetime.now()
+            y=x.strftime("%d""%m""%Y")
+            orderplacedid=f"JJ{y}{customer_id}"
+            for i in range(len(order_product)):
+                order=Order(Orderplacedid=orderplacedid,Customer_id=customer_id,name=fullname,email=customer.email,mobile_number=customer.mobile_number,address=customer.address,product_id=order_product[i],product_name=order_name[i]
+                       ,quantity=order_qty[i] ,product_sub_price=order_subtotal[i])
+                print(fullname)
+                order.save()
+            return redirect('order')
+  
+
     paras = {'customer': customer, 'cart': cart, 'products': products,'total':total}
     return render(request, 'cart.html', paras)  
+
+def account(request):
+    customer_id = request.session.get('customer_id')
+    if customer_id:
+        customer=Customer.objects.get(id=customer_id)
+    else:
+        customer=None
+
+    user = get_object_or_404(Customer, id=customer_id)
+
+    if request.method == 'POST':
+        user.email = request.POST.get('email')
+        user.password = request.POST.get('password')
+        user.mobile_number = request.POST.get('mobile_number')
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.address=request.POST.get('address')
+        user.save()
+        return redirect(index)
+    
+    paras={'customer':customer}
+    return render(request, 'account.html',paras)
+
+
+def order(request):
+    customer_id = request.session.get('customer_id')
+    if customer_id:
+        customer=Customer.objects.get(id=customer_id)
+    else:
+        customer=None
+    print(customer_id)
+    order = Order.objects.filter(Customer_id = customer_id,active=True)
+    total=0
+    Orderplacedid=""
+    date=""
+    address=customer.address
+    for i in order:
+        total+=float(i.product_sub_price)
+        Orderplacedid=i.Orderplacedid
+        date=i.my_date
+    deleivered=Order.objects.filter(Customer_id = customer_id,active=False)
+   
+    
+    
+
+
+
+
+    paras = {'customer': customer,'order':order,'Orderplacedid':Orderplacedid,"date":date,'address':address ,'total':total,'deleivered':deleivered }
+    return render(request,'order.html',paras)

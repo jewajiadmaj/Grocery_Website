@@ -1,0 +1,48 @@
+
+
+.temp_container{
+  width: 600px;
+  margin: 100px auto 0 auto;
+}
+
+/*======//////======== Temp End ========//////=========*/
+
+.control-label{
+  color: #000000;
+  font-size: 18px;
+  font-weight: 100;
+}
+
+.bank--add__body{
+  .row{
+    margin-bottom: 1em;
+  }
+  
+  select, input{
+    width: 100%;
+    border: 1px solid #e0e0e0;
+    background: none;
+    height: 3em;
+    color: #2e2d2d;
+    outline: 0;
+    padding: 1em;
+  }
+  
+  .show__account--number{
+    font-size: 18px;
+    color: #2d2d2d;
+    padding: 1em;
+    display: block;
+    float: right;
+    margin-top: -52px;
+  }
+}
+
+.space-left{
+  margin-left: 1em;
+}
+
+.text--align__center{
+  text-align: center;
+}
+

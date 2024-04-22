@@ -1,5 +1,5 @@
 from django.db import models
-
+from datetime import date
 # Create your models here.
 class Customer(models.Model):
     email = models.EmailField(unique=True)
@@ -34,10 +34,20 @@ class Product(models.Model):
     qty = models.FloatField(default=0)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE,blank=True)
 
-   
-
-    
-
     def __str__(self):
         return self.title
     
+class Order(models.Model):
+    Orderplacedid=models.CharField(max_length=200,blank=True)
+    Customer_id=models.CharField(max_length=200)
+    name=models.CharField(max_length=200)
+    email=models.CharField(max_length=200)
+    mobile_number=models.CharField(max_length=200)
+    address=models.CharField(max_length=200)
+    product_id=models.CharField(max_length=200)
+    product_name=models.CharField(max_length=200)
+    quantity=models.CharField(max_length=200)
+    product_sub_price=models.CharField(max_length=200)
+    my_date = models.DateField(default=date.today)
+    active = models.BooleanField(default=True)
+
