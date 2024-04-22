@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static  'css/account.css' %}">   
+<!--Remove temp_container-->
+<div class="temp_container">
+  
+  
+
+
+    <div class="bank--control">
+      
+      <div class="bank--add__head">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12 col-md-12">
+              <span class="control-label">Edit Account Details</span>
+            </div>
+        </div>
+      </div>
+      </div>
+      
+      <hr>
+      
+      <div class="bank--add__body">
+        <form method="post">
+            {% csrf_token %}
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <div class="form__control">
+                  <label class="form__label" for="iban">Email</label>
+                  <br>
+                  <input type="email" name="email" id="iban" value="{{customer.email}}">
+                </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <div class="form__control">
+                  <label class="form__label" for="iban">Password</label>
+                  <br>
+                  <input type="password" name="password" id="iban" value="{{customer.password}}">
+                </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <div class="form__control">
+                  <label class="form__label" for="iban">First Name</label>
+                  <br>
+                  <input type="text" name="first_name" id="iban" value="{{customer.first_name}}">
+                </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-12">
+              <div class="form__control">
+                <label class="form__label" for="iban">Last Name</label>
+                <br>
+                <input type="text" id="iban" name="last_name" value="{{customer.last_name}}">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12 col-md-12">
+              <div class="form__control">
+                <label class="form__label" for="iban">Phone Number</label>
+                <br>
+                <input type="text" id="iban" name="mobile_number"  value="{{customer.mobile_number}}">
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-xs-12 col-md-8">
+              <div class="form__control">
+                <label class="form__label" for="routing">State</label>
+                <br>
+                <input type="text" id="branchID" fixed  value="Rajasthan" readonly>
+              </div>
+            </div>
+            <div class="col-xs-12 col-md-4">
+              <div class="form__control">
+                <label class="form__label" for="currency">City</label>
+                <br>
+                <input type="text" id="branchID" fixed  value="Udaipur" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-12">
+              <div class="form__control">
+                <label id="address" class="form__label" for="branchID">Address</label>
+                <br>
+                <textarea name="address"  id="" cols="70" rows="5">{{customer.address}}</textarea>
+              </div>
+            </div>
+          </div>
+      
+          <div class="row">
+            <div class="col-md-12">
+              <p class="small">
+                In order for us to link your account properly, you must fill out all of the fields.
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button type="submit" class="pull-right btn btn-success space-left">Update account</button>
+            </div>
+          </div>
+        </div>
+    </form>
+      </div>
+      
+    </div>
+      
+      
+      
+      
+    </div>
+    <!--Remove temp_container-->
+    <link rel="stylesheet" href="{% static 'js/account.js' %}">
+ {% endblock %}
