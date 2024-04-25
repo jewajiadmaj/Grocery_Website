@@ -33,7 +33,7 @@
           <a style="color: black;" class="navbar-brand" href="/">
             <img style="width: 120px; height: 120px;" src="{% static 'images/jewajiadamjico-high-resolution-logo-transparent.png' %}" alt="">
           </a>
-          <img style="width: 80px;" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" src="../static/images/hamburger--1--1@1x.png" alt="">
+          <img style="width: 80px;" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" src="{% static 'images/hamburger--1--1@1x.png' %}" alt="">
           
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -75,8 +75,8 @@
             
             </ul>
             <div class="search-and-icons">
-              <form class="d-flex mb-2 me-2" role="search">
-                <input class="form-control me-2" type="search" aria-label="Search">
+              <form method="get" action="{% url 'product_search' %}">
+                <input name="query" value="{{ query }}" class="form-control me-2" type="search" aria-label="Search">
               </form>
          
             </div>
