@@ -3,6 +3,11 @@ from .models import Category,Product,Customer,Order
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
 import datetime
+from django.db.models import Q
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.conf import settings
 # Create your views here.
 def index(request):
     customer_id = request.session.get('customer_id')
@@ -29,6 +34,8 @@ def about(request):
         customer=None
     paras={'customer':customer}
     return render(request, 'about.html',paras)
+
+
 def product_view(request, product_id):
     customer_id = request.session.get('customer_id')
     if customer_id:
@@ -39,6 +46,7 @@ def product_view(request, product_id):
    
     paras={'customer':customer,'product': product}
     cart = request.session.get('cart', [])  # Retrieve cart from session or an empty list if not present
+   
     if request.method == 'POST':
         cart_quantity = int(request.POST.get('cart_quantity'))
         updated = False
@@ -55,6 +63,8 @@ def product_view(request, product_id):
             cart.append({'product_id': product_id, 'quantity': cart_quantity})
 
         request.session['cart'] = cart  # Update cart in session
+
+        return redirect(carts)
 
     paras = {'customer': customer, 'product': product, 'cart': cart}
 
@@ -158,6 +168,8 @@ def carts(request):
                        ,quantity=order_qty[i] ,product_sub_price=order_subtotal[i])
                 print(fullname)
                 order.save()
+            send_mail('Order Mail', f'New Oreder recived from Customer Name: {customer.first_name} \n \n Email: {customer.email} \n \n', settings.EMAIL_HOST_USER, [
+                  'huzefataj8@gmail.com'], fail_silently=False)
             return redirect('order')
   
 
@@ -204,12 +216,45 @@ def order(request):
         Orderplacedid=i.Orderplacedid
         date=i.my_date
     deleivered=Order.objects.filter(Customer_id = customer_id,active=False)
-   
-    
-    
-
-
-
-
     paras = {'customer': customer,'order':order,'Orderplacedid':Orderplacedid,"date":date,'address':address ,'total':total,'deleivered':deleivered }
     return render(request,'order.html',paras)
+
+def product_search(request):
+    query = request.GET.get('query', '')  # Get the search term from GET request
+    results = []
+    if query:  # Ensure the query is not empty
+        results = Product.objects.filter(Q(title__icontains=query) | Q(category__name__icontains=query))
+
+    return render(request, 'search.html', {
+        'query': query,
+        'results': results
+    })
+
+# admin
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect(dashboard)  # Redirect to a success page.
+        else:
+            messages.error(request, 'Invalid username or password')
+
+    return render(request, 'logindashboard.html')
+
+@login_required
+def dashboard(request):
+    order=Order.objects.filter(active=True)
+    
+    if request.method == 'POST':
+        order_id=request.POST.get('order_id')
+        o = get_object_or_404(Order, id=order_id)
+        o.active=False
+        o.save()
+    return render(request, 'dashboard.html', {'order': order})
+@login_required
+def pastorderdashboard(request):
+    order=Order.objects.filter(active=False)
+    return render(request, 'pastorder.html', {'order': order})

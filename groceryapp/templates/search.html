@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="data">
+{% if query %}
+<h3>Results for "{{ query }}":</h3>
+
+
+<!-- store -->
+<div id="store" class="store">
+    <div class="product-container">
+
+        {% for product in results %}
+
+        <div class="product-card">
+            <img src="{{product.image_url}}" alt="Product Name" class="product-image">
+            <h3 class="product-name">{{product.title}}</h3>
+            <p class="product-description">{{product.description}}</p>
+            <div class="product-price">₹ {{product.price}} /{{product.qty}}{{product.unit}}</div>
+            <a style="text-decoration: none; color: white;" href="/product/{{product.id}}" class="add-to-cart-button">View</a>
+        </div>
+
+        {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+</div>
+
+
+{% endif %}
+</div>
+{% endblock %}

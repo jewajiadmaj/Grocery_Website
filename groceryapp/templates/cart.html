@@ -2,8 +2,7 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/cart.css' %}">
-<h1>{{cart}}</h1>
-
+{% if products %}
 <main>
   <div class="basket">
     
@@ -87,6 +86,9 @@
     </div>
   </aside>
 </main>
+{% else %}
+<h1 class="mt-5" style="font-size: larger; text-align: center;"> Empty Cart</h1>
+{% endif %}
 
 
 <link rel="stylesheet" href="{% static 'js/cart.js' %}">
