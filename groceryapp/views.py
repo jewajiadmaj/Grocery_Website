@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404,HttpResponse,redirect
-from .models import Category,Product,Customer,Order
+from .models import Category,Product,Customer,Order,Notification
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
 import datetime
@@ -168,8 +168,10 @@ def carts(request):
                        ,quantity=order_qty[i] ,product_sub_price=order_subtotal[i])
                 print(fullname)
                 order.save()
-            send_mail('Order Mail', f'New Oreder recived from Customer Name: {customer.first_name} \n \n Email: {customer.email} \n \n', settings.EMAIL_HOST_USER, [
-                  'huzefataj8@gmail.com'], fail_silently=False)
+            ordermail=Notification.objects.filter(active=True)
+            for ix in ordermail:
+                send_mail('Order Mail', f'New Oreder recived from Customer Name: {customer.first_name} Order id: #{orderplacedid} \n \n Email: {customer.email} \n \n', settings.EMAIL_HOST_USER, [
+                  ix.email], fail_silently=False)
             return redirect('order')
   
 
@@ -244,6 +246,10 @@ def user_login(request):
 
     return render(request, 'logindashboard.html')
 
+def logout_view(request):
+    logout(request)
+    return redirect(index)
+
 @login_required
 def dashboard(request):
     order=Order.objects.filter(active=True)
@@ -254,6 +260,7 @@ def dashboard(request):
         o.active=False
         o.save()
     return render(request, 'dashboard.html', {'order': order})
+
 @login_required
 def pastorderdashboard(request):
     order=Order.objects.filter(active=False)

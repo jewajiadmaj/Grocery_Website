@@ -51,3 +51,8 @@ class Order(models.Model):
     my_date = models.DateField(default=date.today)
     active = models.BooleanField(default=True)
 
+class Notification(models.Model):
+    email = models.EmailField(unique=True,blank=True)
+    active = models.BooleanField(default=True)
+    def __str__(self):
+        return self.email
