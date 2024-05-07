@@ -18,4 +18,8 @@ urlpatterns = [
      path('dashboard/', views.dashboard, name='login'),
      path('pastorder/', views.pastorderdashboard, name='pastorder'),
   path('logout-admin/', views.logout_view,name='logout'),
+  path('payment/', views.payment, name='logout'),
+  path('prepaidorder/', views.onlinepayment, name='prepaid'),
+  path('coddorder/', views.codorder, name='cod'),
+
    ]

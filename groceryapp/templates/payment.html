@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="data">
+    <!-- Conditional rendering based on show_qr flag -->
+    {% if show_qr %}
+    <div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+        {{ img_tag|safe }}
+        <a class="btn btn-success" href="upi://pay?pa=huzefataj8@okaxis&pn=JewajiAdamJi&tr={{orderplacedid}}&am={{total}}&cu=INR">Pay Now</a>
+    </div>
+    {% else %}
+    <form style="padding: 2px; display: flex;" method="post" action="">
+      {% csrf_token %}
+      <div class="input-group has-validation">
+        <span class="input-group-text">Upi Id</span>
+        <div class="form-floating">
+          <input name="upiid" type="text" class="form-control " id="floatingInputGroup2" placeholder="Username" required>
+          <label for="floatingInputGroup2">Enter Upi Id</label>
+        </div>
+        <button type="submit" class="btn btn-outline-success">Submit</button>
+      </div>
+    </form>
+    {% endif %}
+    <br>
+
+</div>
+{% endblock %}

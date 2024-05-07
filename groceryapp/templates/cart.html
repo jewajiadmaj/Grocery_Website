@@ -46,19 +46,8 @@
   <aside>
     <div class="summary">
       <div class="summary-total-items"><span class="total-items"></span> Items in your Bag</div>
-      <div class="summary-subtotal">
-        <div class="subtotal-title">Total</div>
-        <div class="subtotal-value final-value" id="basket-subtotal">{{total}}</div>
-      </div>
-      <div class="summary-delivery">
-        <select name="delivery-collection" class="summary-delivery-selection">
-          <option value="0" selected="selected">Cash on Delivery</option>
-          <!-- <option value="collection">Collection</option>
-          <option value="first-class">Royal Mail 1st Class</option>
-          <option value="second-class">Royal Mail 2nd Class</option>
-          <option value="signed-for">Royal Mail Special Delivery</option> -->
-        </select>
-      </div>
+      
+
       <div class="summary-total">
         <div class="total-title">Total</div>
         <div class="total-value final-value" id="basket-total">{{total}}</div>
@@ -69,8 +58,13 @@
           {% if customer.address %}
           <form method="post">
           {% csrf_token %}
-        <button class="checkout-cta">Purchase Order</button>
-      </form>
+        <button class="checkout-cta">Cash On Delivery</button>
+      </form> 
+      <br>
+      <form method="post">
+        {% csrf_token %}
+      <button name="payment" class="checkout-cta">Pay online</button>
+    </form>
           {% else %}
           <p style="color: red;">Address Not Found </p>
           <a href="/account#address" class="al checkout-cta">Update Accout</a>

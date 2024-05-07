@@ -50,6 +50,10 @@ class Order(models.Model):
     product_sub_price=models.CharField(max_length=200)
     my_date = models.DateField(default=date.today)
     active = models.BooleanField(default=True)
+    online_payment = models.BooleanField(default=False)
+    payment_mode=models.CharField(max_length=200)
+    upiId=models.CharField(max_length=200,blank=True)
+
 
 class Notification(models.Model):
     email = models.EmailField(unique=True,blank=True)
