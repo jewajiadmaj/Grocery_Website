@@ -85,10 +85,11 @@ tbody tr:hover {
                 <a class="nav-link active" aria-current="page" href="/coddorder">COD Orders</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/prepaidorder">Online Orders</a>
+                <a class="nav-link active" aria-current="page" href="/pastorder">Past Orders</a>
               </li>
+              
               <li class="nav-item">
-                <a class="nav-link" href="/"><i class='bx bxs-log-out' ></i> logout</a>
+                <a class="nav-link" href="/logout-admin"><i class='bx bxs-log-out' ></i> logout</a>
               </li>
            
            
@@ -105,7 +106,7 @@ tbody tr:hover {
 
     <div class="dashboard-wrapper">
         <header>
-            <h1>Past Order Dashboard</h1>
+            <h1>Online Order Dashboard</h1>
         </header>
         <section class="order-table">
             <table>
@@ -120,10 +121,9 @@ tbody tr:hover {
                         <th>Product Name</th>
                         <th>Quantity</th>
                         <th>Status</th>
-                        <th>payment Mode</th>
-
                         <th>Total</th>
-                        
+                        <th>UPI ID</th>
+                        <th>parcel</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -138,10 +138,12 @@ tbody tr:hover {
                         <td>{{i.address}}</td>
                         <td><b><a style="text-decoration: none;" href="/product/{{i.product_id}}"> {{i.product_name}}</a></b></td>
                         <td>{{i.quantity}}</td>
-                        <td><span class="badge bg-success">Shipped</span></td>
-                        <td>{{i.payment_mode}}</td>
-                        <td>₹ {{i.product_sub_price}}</td>
-            
+                        <td>{% if i.active %}<span class="badge bg-secondary">Pending</span> {% endif %}</td>
+                        <td>{{i.product_sub_price}}</td>
+                        <td>{{i.upiId}}</td>
+                        <td><form  method="post">
+                            <input readonly name="order_id" hidden type="text" value="{{i.id}}">
+                            {% csrf_token %} <button type="submit" class="btn btn-success">Shipped</button></form></td>
                         
                     </tr>
                     {% endfor %}

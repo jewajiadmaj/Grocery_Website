@@ -79,6 +79,13 @@ tbody tr:hover {
                 <a class="nav-link active" aria-current="page" href="/">View Website</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/coddorder">COD Orders</a>
+              </li> 
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/prepaidorder">Online Orders</a>
+              </li>
+              
+              <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/pastorder">Past Orders</a>
               </li>
               <li class="nav-item">
@@ -99,7 +106,7 @@ tbody tr:hover {
 
     <div class="dashboard-wrapper">
         <header>
-            <h1>Order Dashboard</h1>
+            <h1>All Order Dashboard</h1>
         </header>
         <section class="order-table">
             <table>
@@ -115,6 +122,7 @@ tbody tr:hover {
                         <th>Quantity</th>
                         <th>Status</th>
                         <th>Total</th>
+                        <th>Mode</th>
                         <th>parcel</th>
                     </tr>
                 </thead>
@@ -132,6 +140,7 @@ tbody tr:hover {
                         <td>{{i.quantity}}</td>
                         <td>{% if i.active %}<span class="badge bg-secondary">Pending</span> {% endif %}</td>
                         <td>₹ {{i.product_sub_price}}</td>
+                        <td>{{i.payment_mode}}</td>
                         <td><form  method="post">
                             <input readonly name="order_id" hidden type="text" value="{{i.id}}">
                             {% csrf_token %} <button type="submit" class="btn btn-success">Shipped</button></form></td>

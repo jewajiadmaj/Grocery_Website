@@ -157,7 +157,8 @@ def carts(request):
             request.session['cart'] = updated_cart  # Update cart in session
             return redirect(carts)  # Redirect to the cart page after removing the product
 
-    
+        elif 'payment' in request.POST:
+            return redirect(payment)
         else:
             fullname=customer.first_name+" "+customer.last_name
             x = datetime.datetime.now()
@@ -165,12 +166,12 @@ def carts(request):
             orderplacedid=f"JJ{y}{customer_id}"
             for i in range(len(order_product)):
                 order=Order(Orderplacedid=orderplacedid,Customer_id=customer_id,name=fullname,email=customer.email,mobile_number=customer.mobile_number,address=customer.address,product_id=order_product[i],product_name=order_name[i]
-                       ,quantity=order_qty[i] ,product_sub_price=order_subtotal[i])
+                       ,quantity=order_qty[i] ,product_sub_price=order_subtotal[i],payment_mode='COD')
                 print(fullname)
                 order.save()
             ordermail=Notification.objects.filter(active=True)
             for ix in ordermail:
-                send_mail('Order Mail', f'New Oreder recived from Customer Name: {customer.first_name} Order id: #{orderplacedid} \n \n Email: {customer.email} \n \n', settings.EMAIL_HOST_USER, [
+                send_mail('Order Mail', f'New Oreder recived from Customer Name: {customer.first_name} Order id: #{orderplacedid} \n \n Email: {customer.email}\n \n Payment Mode: COD  \n \n', settings.EMAIL_HOST_USER, [
                   ix.email], fail_silently=False)
             return redirect('order')
   
@@ -232,6 +233,67 @@ def product_search(request):
         'results': results
     })
 
+import qrcode
+import base64
+from io import BytesIO
+def payment(request):
+    customer_id = request.session.get('customer_id')
+    if customer_id:
+        customer = Customer.objects.get(id=customer_id)
+    else:
+        customer = None
+
+    cart = request.session.get('cart', [])
+    total = []
+    order_product = []
+    order_name = []
+    order_qty = []
+    order_subtotal = []
+
+    for item in cart:
+        product = get_object_or_404(Product, id=item['product_id'])
+        order_product.append(product.id)
+        order_name.append(product.title)
+        order_qty.append(item['quantity'])
+        subtotal = float(product.price * item['quantity'])
+        order_subtotal.append(subtotal)
+        total.append(subtotal)
+
+    total = sum(total)
+    fullname = customer.first_name + " " + customer.last_name if customer else "Guest"
+    show_qr = False
+    img_tag = ""
+
+    if request.method == 'POST':
+        upid = request.POST.get('upiid')
+        x = datetime.datetime.now()
+        y = x.strftime("%d%m%Y")
+        orderplacedid = f"JJ{y}{customer_id}"
+
+        for i in range(len(order_product)):
+            order = Order(Orderplacedid=orderplacedid, Customer_id=customer_id, name=fullname, email=customer.email, mobile_number=customer.mobile_number, address=customer.address, product_id=order_product[i], product_name=order_name[i], quantity=order_qty[i], product_sub_price=order_subtotal[i],online_payment=True, upiId=upid, payment_mode='online')
+            order.save()
+
+        ordermail = Notification.objects.filter(active=True)
+        for ix in ordermail:
+            send_mail('Order Mail', f'New Order received from Customer Name: {customer.first_name} Order id: #{orderplacedid} \n \n Email: {customer.email} \n \n Payment Mode: Online \n \n Upi Id: {upid}', settings.EMAIL_HOST_USER, [ix.email], fail_silently=False)
+
+        # QR Code generation happens after form submission
+        upi_link = f"upi://pay?pa=huzefataj8@okaxis&pn=JewajiAdamJi&tr={orderplacedid}&am={total}&cu=INR"
+        qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
+        qr.add_data(upi_link)
+        qr.make(fit=True)
+        qr_img = qr.make_image(fill_color="black", back_color="white")
+
+        buffer = BytesIO()
+        qr_img.save(buffer, format="PNG")
+        qr_img_base64 = base64.b64encode(buffer.getvalue()).decode()
+        img_tag = f'<img src="data:image/png;base64,{qr_img_base64}" alt="QR Code">'
+        show_qr = True
+
+        return render(request, 'payment.html', {'customer': customer,'show_qr': show_qr, 'img_tag': img_tag,'orderplacedid':orderplacedid,'total':total})
+
+    return render(request, 'payment.html', {'customer': customer,'show_qr': show_qr, 'img_tag': img_tag})
 # admin
 def user_login(request):
     if request.method == 'POST':
@@ -261,6 +323,26 @@ def dashboard(request):
         o.save()
     return render(request, 'dashboard.html', {'order': order})
 
+@login_required
+def codorder(request):
+    order=Order.objects.filter(active=True,online_payment=False)
+    
+    if request.method == 'POST':
+        order_id=request.POST.get('order_id')
+        o = get_object_or_404(Order, id=order_id)
+        o.active=False
+        o.save()
+    return render(request, 'codorder.html', {'order': order})
+
+@login_required
+def onlinepayment(request):
+    order=Order.objects.filter(active=True,online_payment=True) 
+    if request.method == 'POST':
+        order_id=request.POST.get('order_id')
+        o = get_object_or_404(Order, id=order_id)
+        o.active=False
+        o.save()
+    return render(request,'prepaidorder.html',{'order': order})
 @login_required
 def pastorderdashboard(request):
     order=Order.objects.filter(active=False)
