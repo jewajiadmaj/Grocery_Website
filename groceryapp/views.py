@@ -66,7 +66,8 @@ def product_view(request, product_id):
 
         return redirect(carts)
 
-    paras = {'customer': customer, 'product': product, 'cart': cart}
+    similar_category=Product.objects.filter(category=product.category)
+    paras = {'customer': customer, 'product': product, 'cart': cart,'similar_category':similar_category}
 
     return render(request, 'productview.html', paras)
 
@@ -226,7 +227,7 @@ def product_search(request):
     query = request.GET.get('query', '')  # Get the search term from GET request
     results = []
     if query:  # Ensure the query is not empty
-        results = Product.objects.filter(Q(title__icontains=query) | Q(category__name__icontains=query))
+        results = Product.objects.filter(Q(title__icontains=query) | Q(category__name__icontains=query)| Q(description__icontains=query))
 
     return render(request, 'search.html', {
         'query': query,
