@@ -1,6 +1,3 @@
-@charset "utf-8";
-
-
 a {
   border: 0 none;
   outline: 0;
@@ -82,14 +79,14 @@ button,
   display: none;
 }
 
-main {
-  clear: both;
-  font-size: 0.75rem;
-  margin: 0 auto;
-  overflow: hidden;
-  padding: 1rem 0;
-  width: 960px;
-}
+  main {
+    clear: both;
+    font-size: 0.75rem;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 1rem 0;
+    width: 960px;
+  }
 
 .basket,
 aside {
@@ -151,7 +148,7 @@ ul {
 li {
   color: #111;
   display: inline-block;
-  padding: 0.625rem 0;
+
 }
 
 li.price:before,

@@ -17,7 +17,7 @@
                     <h3>{{product.title}}</h3>
                     <hr>
                     <p class="product-price">₹ {{product.price}} /{{product.qty}}{{product.unit}}</p>
-                    <form style="display: flex; width: 100%;     justify-content: space-evenly;;" class="add-inputs" method="post">
+                    <form class="add-inputs" method="post">
                         {% csrf_token %}
                         <div class="quantity-controls">
                             <button type="button" class="btn btn-secondary btn-sm" onclick="changeQuantity(-1)">-</button>
@@ -67,6 +67,41 @@
         </div>
         <!-- End row -->
     </div>
+
+    <div id="store" class="store mt-4">
+        <h4 class="heading">Similar product:</h4>
+      
+        <div class="product-container">
+      
+       {% for i in similar_category %}
+
+            {% if i.id != product.id %}
+      
+          <div class="product-card">
+            <img src="{{i.image_url}}" alt="Product Name" class="product-image">
+            <h3 class="product-name">{{i.title}}</h3>
+            <p class="product-description">{{i.description|truncatewords:10}}</p>
+            <div class="product-price">₹ {{i.price}} /{{i.qty}}{{i.unit}}</div>
+            <a style="text-decoration: none; color: white;" href="/product/{{i.id}}" class="add-to-cart-button">View</a>
+          </div>
+          {% endif %}
+      
+        {% endfor %}
+            
+            
+            
+            
+      
+            
+            
+            
+            
+            
+            
+            
+          </div>
+      
+      </div>
     <script>
         function changeQuantity(delta) {
             var input = document.getElementById('cart_quantity');
