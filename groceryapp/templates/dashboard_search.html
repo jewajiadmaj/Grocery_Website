@@ -79,6 +79,9 @@ tbody tr:hover {
                 <a class="nav-link active" aria-current="page" href="/">View Website</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/dashboard/">All Orders</a>
+              </li> 
+              <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/coddorder">COD Orders</a>
               </li> 
               <li class="nav-item">
@@ -111,7 +114,7 @@ tbody tr:hover {
 
     <div class="dashboard-wrapper">
         <header>
-            <h1>All Order Dashboard</h1>
+            <h1>{{ query }} Orders</h1>
         </header>
         <section class="order-table">
             <table>
@@ -132,7 +135,7 @@ tbody tr:hover {
                     </tr>
                 </thead>
                 <tbody>
-                    {% for i in order %}
+                    {% for i in results %}
                     <tr>
                         <td>{{i.Orderplacedid}}</td>
                         <td>{{i.my_date}}</td>

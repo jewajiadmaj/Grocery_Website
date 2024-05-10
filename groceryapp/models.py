@@ -60,3 +60,7 @@ class Notification(models.Model):
     active = models.BooleanField(default=True)
     def __str__(self):
         return self.email
+    
+class Charge(models.Model):
+    name=models.CharField(max_length=90)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
