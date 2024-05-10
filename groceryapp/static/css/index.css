@@ -209,8 +209,12 @@
     font-size: 2rem;
 }
 .cimg{
-  height: 500px;
   width: 100%;
   border-radius: 20px;
+  height:500px;
+  object-fit: contain;
+}
+.citem{
+  background-color: rgb(202, 200, 200);
 }
 

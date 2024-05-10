@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404,HttpResponse,redirect
-from .models import Category,Product,Customer,Order,Notification
+from .models import Category,Product,Customer,Order,Notification,Charge
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
 import datetime
@@ -147,6 +147,12 @@ def carts(request):
     
     total=sum(total)
 
+    charge=Charge.objects.all()
+    extra_amount=float(0)
+    for i in charge:
+        extra_amount+=float(i.amount)
+    final_amount=total+extra_amount
+
     if request.method == 'POST':
         if 'product_id' in request.POST:
             product_id_to_remove = int(request.POST.get('product_id'))  # Get the product_id to remove from the form submission
@@ -172,12 +178,12 @@ def carts(request):
                 order.save()
             ordermail=Notification.objects.filter(active=True)
             for ix in ordermail:
-                send_mail('Order Mail', f'New Oreder recived from Customer Name: {customer.first_name} Order id: #{orderplacedid} \n \n Email: {customer.email}\n \n Payment Mode: COD  \n \n', settings.EMAIL_HOST_USER, [
+                send_mail('Order Mail', f'New Oreder recived \n\n Customer Name: {customer.first_name} Order id: #{orderplacedid} \n \n Email: {customer.email}\n \n Payment Mode: COD \n\n Product amount {total} + Extra Charges {extra_amount} = {final_amount}  \n \n View order: http://127.0.0.1:8000/dsearch/?query={orderplacedid}', settings.EMAIL_HOST_USER, [
                   ix.email], fail_silently=False)
             return redirect('order')
   
 
-    paras = {'customer': customer, 'cart': cart, 'products': products,'total':total}
+    paras = {'charge':charge,'customer': customer, 'cart': cart, 'products': products,'total':total,'final_amount':final_amount}
     return render(request, 'cart.html', paras)  
 
 def account(request):
@@ -234,6 +240,9 @@ def product_search(request):
         'results': results
     })
 
+
+
+
 import qrcode
 import base64
 from io import BytesIO
@@ -280,7 +289,7 @@ def payment(request):
             send_mail('Order Mail', f'New Order received from Customer Name: {customer.first_name} Order id: #{orderplacedid} \n \n Email: {customer.email} \n \n Payment Mode: Online \n \n Upi Id: {upid}', settings.EMAIL_HOST_USER, [ix.email], fail_silently=False)
 
         # QR Code generation happens after form submission
-        upi_link = f"upi://pay?pa=huzefataj8@okaxis&pn=JewajiAdamJi&tr={orderplacedid}&am={total}&cu=INR"
+        upi_link = f"upi://pay?pa=9829623144@okbizaxis&pn=JewajiAdamJi&tr={orderplacedid}&am={total}&cu=INR"
         qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
         qr.add_data(upi_link)
         qr.make(fit=True)
@@ -312,6 +321,23 @@ def user_login(request):
 def logout_view(request):
     logout(request)
     return redirect(index)
+
+@login_required
+def dashboard_search(request):
+    query = request.GET.get('query', '')  # Get the search term from GET request
+    results = []
+    if query:  # Ensure the query is not empty
+        results = Order.objects.filter( Q(Orderplacedid__icontains=query),active=True)
+
+    if request.method == 'POST':
+        order_id=request.POST.get('order_id')
+        o = get_object_or_404(Order, id=order_id)
+        o.active=False
+        o.save()
+    return render(request, 'dashboard_search.html', {
+        'query': query,
+        'results': results
+    })
 
 @login_required
 def dashboard(request):
@@ -348,3 +374,5 @@ def onlinepayment(request):
 def pastorderdashboard(request):
     order=Order.objects.filter(active=False)
     return render(request, 'pastorder.html', {'order': order})
+
+

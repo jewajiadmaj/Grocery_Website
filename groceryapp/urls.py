@@ -21,5 +21,6 @@ urlpatterns = [
   path('payment/', views.payment, name='logout'),
   path('prepaidorder/', views.onlinepayment, name='prepaid'),
   path('coddorder/', views.codorder, name='cod'),
+  path('dsearch/', views.dashboard_search, name='dashboard_search'),
 
    ]

@@ -51,7 +51,16 @@
       <div class="summary-total">
         <div class="total-title">Total</div>
         <div class="total-value final-value" id="basket-total">{{total}}</div>
+        <br><br>
+        {% for i in charge %}
+        <div class="total-title">{{i.name}}</div>
+        <div class="total-value final-value" id="basket-total">{{i.amount}}</div>
+        {% endfor %}
       </div>
+      <div class="summary-total">
+      <div class="total-title">Total Amount</div>
+        <div class="total-value final-value" id="basket-total">{{final_amount}}</div>
+        </div>
       {% if total > 499 %}
       <div class="summary-checkout">
         {% if customer %}
