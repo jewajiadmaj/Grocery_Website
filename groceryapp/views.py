@@ -178,7 +178,7 @@ def carts(request):
                 order.save()
             ordermail=Notification.objects.filter(active=True)
             for ix in ordermail:
-                send_mail('Order Mail', f'New Oreder recived \n\n Customer Name: {customer.first_name} Order id: #{orderplacedid} \n \n Email: {customer.email}\n \n Payment Mode: COD \n\n Product amount {total} + Extra Charges {extra_amount} = {final_amount}  \n \n View order: http://127.0.0.1:8000/dsearch/?query={orderplacedid}', settings.EMAIL_HOST_USER, [
+                send_mail('Order Mail', f'New Oreder recived \n\n Customer Name: {customer.first_name} Order id: #{orderplacedid} \n \n Email: {customer.email}\n \n Payment Mode: COD \n\n Product amount {total} + Extra Charges {extra_amount} = {final_amount}  \n \n View order: https://jewajiadamji.pythonanywhere.com/dsearch/?query={orderplacedid}', settings.EMAIL_HOST_USER, [
                   ix.email], fail_silently=False)
             return redirect('order')
   
@@ -270,6 +270,13 @@ def payment(request):
         total.append(subtotal)
 
     total = sum(total)
+    charge=Charge.objects.all()
+    extra_amount=float(0)
+    for i in charge:
+        extra_amount+=float(i.amount)
+    final_amount=total+extra_amount
+
+
     fullname = customer.first_name + " " + customer.last_name if customer else "Guest"
     show_qr = False
     img_tag = ""
@@ -286,7 +293,7 @@ def payment(request):
 
         ordermail = Notification.objects.filter(active=True)
         for ix in ordermail:
-            send_mail('Order Mail', f'New Order received from Customer Name: {customer.first_name} Order id: #{orderplacedid} \n \n Email: {customer.email} \n \n Payment Mode: Online \n \n Upi Id: {upid}', settings.EMAIL_HOST_USER, [ix.email], fail_silently=False)
+            send_mail('Order Mail', f'New Order received from Customer Name: {customer.first_name} Order id: #{orderplacedid} \n \n Email: {customer.email} \n \n Payment Mode: Online \n \n Upi Id: {upid} Product amount {total} + Extra Charges {extra_amount} = {final_amount}  \n \n View order: https://jewajiadamji.pythonanywhere.com/dsearch/?query={orderplacedid}' , settings.EMAIL_HOST_USER, [ix.email], fail_silently=False)
 
         # QR Code generation happens after form submission
         upi_link = f"upi://pay?pa=9829623144@okbizaxis&pn=JewajiAdamJi&tr={orderplacedid}&am={total}&cu=INR"
