@@ -296,7 +296,7 @@ def payment(request):
             send_mail('Order Mail', f'New Order received from Customer Name: {customer.first_name} Order id: #{orderplacedid} \n \n Email: {customer.email} \n \n Payment Mode: Online \n \n Upi Id: {upid} Product amount {total} + Extra Charges {extra_amount} = {final_amount}  \n \n View order: https://jewajiadamji.pythonanywhere.com/dsearch/?query={orderplacedid}' , settings.EMAIL_HOST_USER, [ix.email], fail_silently=False)
 
         # QR Code generation happens after form submission
-        upi_link = f"upi://pay?pa=9829623144@okbizaxis&pn=JewajiAdamJi&tr={orderplacedid}&am={total}&cu=INR"
+        upi_link = f"upi://pay?pa=9829623144@okbizaxis&pn=JewajiAdamJi&tr={orderplacedid}&am={final_amount}&cu=INR"
         qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
         qr.add_data(upi_link)
         qr.make(fit=True)
