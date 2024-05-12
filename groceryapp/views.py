@@ -118,9 +118,64 @@ def sign(request):
                 return render(request, 'sign.html')
                     
     return render(request, 'sign.html')
+def login(request):
+    if request.method == 'POST':
+            email = request.POST.get('email')
+            password = request.POST.get('password')
+            try:
+                customer = Customer.objects.get(email=email)
+            except Customer.DoesNotExist:
+                # Handle case where email doesn't exist
+                messages.error(request, 'Incorrect email or password. Please try again.')
+                return render(request, 'sign.html')
+
+            if password == customer.password:
+                # Passwords match, login successful
+                # You might want to set session variables or use Django's built-in authentication system here
+                request.session['email'] = email
+                request.session['customer_id'] = customer.id
+                return redirect(index)  # Replace 'index' with the name of your home page URL pattern
+            else:
+                # Passwords don't match
+                messages.error(request, 'Incorrect email or password. Please try again.')
+                return render(request, 'login.html')
+    return render(request, 'login.html')
+def signup(request):
+    
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        password1 = request.POST.get('password1')
+        mobile_number = request.POST.get('mobile_number')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        # Check if email already exists
+        if Customer.objects.filter(email=email).exists():
+            messages.error(request, 'email already exist ')
+            return redirect(signup)
+        if password != password1:
+            messages.error(request, 'Confirm password not matched')
+            return redirect(signup)
+        if len(mobile_number) != 10:
+            messages.error(request, 'Confirm phone Number')
+            return redirect(signup)
+            # Create a new Customer object and save it
+        customer = Customer.objects.create(
+                email=email,
+                password=password,
+                mobile_number=mobile_number,
+                first_name=first_name,
+                last_name=last_name,
+            )
+        customer.save()
+        return redirect(login)
+
+  
+    return render(request, 'signup.html')
+
 def logout(request):
     request.session.clear()
-    return redirect(sign)
+    return redirect(login)
 
 def carts(request):
     customer_id = request.session.get('customer_id')
