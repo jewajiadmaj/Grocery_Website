@@ -48,7 +48,7 @@ def product_view(request, product_id):
     cart = request.session.get('cart', [])  # Retrieve cart from session or an empty list if not present
    
     if request.method == 'POST':
-        cart_quantity = int(request.POST.get('cart_quantity'))
+        cart_quantity = float(request.POST.get('cart_quantity'))
         updated = False
 
         # Check if the product is already in the cart
@@ -195,7 +195,8 @@ def carts(request):
         order_product.append(product.id)
         order_name.append(product.title)
         order_qty.append(item['quantity'])
-        subtotal=float(product.price*item['quantity'])
+        p=float(product.price)
+        subtotal=float(p*item['quantity'])
         order_subtotal.append(subtotal)
         products.append([product,item['quantity'],subtotal])
         total.append(float(subtotal))
