@@ -3,43 +3,41 @@
 <h1>{{email}}</h1>
 <div class="data">
 
-  <div style="height:500px; overflow: hidden;" id="carouselExampleControls" class="banner carousel slide" data-bs-ride="carousel">
-    <div  class="carousel-inner">
-      <div  class="citem carousel-item active">
-        <img class="cimg" src="../static/images/banner/WhatsApp Image 2024-04-13 at 6.34.56 PM.jpeg"  alt="...">
+  <div style="width: 100%;  background-color: #d6cdbd;  border-radius: 20px;" class="classbbanner">
+
+    <div style="display: flex; align-items: center;" class="row">
+      <div style="padding: 20px; ;" class="col-lg-9">
+        <div>
+          <h1 style=" text-align: right; font-weight: 500; line-height: 1.2;">Your One-Stop Shop for Every <span style="color: #ffa500;"> Grocries </span> Needs!</h1>
+        </div>
       </div>
-      <div class="citem carousel-item">
-        <img class="cimg" src="../static/images/banner/WhatsApp Image 2024-04-13 at 6.34.57 PM.jpeg"  alt="...">
-      </div>
-      <div class="citem carousel-item">
-        <img class="cimg" src="../static/images/banner/WhatsApp Image 2024-04-13 at 6.34.57 PM (3).jpeg"  alt="...">
+      <div style=" padding: 20px;" class="col-lg-3">
+        <div>
+          <img style="border-radius: 20px;" width="100%" src="../static/images/banner/bimage.png" alt="">
+        </div>
       </div>
     </div>
-      <img style="width: 100px; position: absolute; top: 40%;" class="carousel-control-prev"  data-bs-target="#carouselExampleControls" data-bs-slide="prev" type="button" src="../static/images/prev.png" alt="">
-      <!-- <i  width="240" height="240" data-bs-target="#carouselExampleControls" data-bs-slide="prev" type="button" class='carousel-control-prev bx bx-chevron-left' style='color:#ffa500'  ></i> -->
-
-    <!-- <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button> -->
-    <img  style="width: 100px; position: absolute; top: 40%;" class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next"  src="../static/images/next.png" alt="">
 
   </div>
-  <div  class="col-lg-4">
+
+
+
+  <div class="col-lg-4">
     <div class="dropdown">
-      <button style="background-color: #ffa500; color: aliceblue;" class="btn btn dropdown-toggle active mt-2 mb-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <button style="background-color: #ffa500; color: aliceblue;" class="btn btn dropdown-toggle active mt-2 mb-2"
+        type="button" data-bs-toggle="dropdown" aria-expanded="false">
         Category
       </button>
-      <ul style="width: 100%; height: 400px; overflow: scroll;"  class="dropdown-menu">
+      <ul style="width: 100%; height: 400px; overflow: scroll;" class="dropdown-menu">
         <div class="list-group mt-2">
           <a href="/#store" class="list-group-item list-group-item-action active" aria-current="true">
-          All Products
+            All Products
           </a>
           {% for i in category %}
           <a href="/?category={{i.id}}#store" class="list-group-item list-group-item-action">{{i.name}}</a>
-        
+
           {% endfor %}
-      
+
         </div>
       </ul>
     </div>
@@ -48,42 +46,42 @@
 
 
 
-   
-</div>
+
+  </div>
 
 
-<!-- store -->
-<div id="store" class="store">
-  <h4 class="heading">Store:</h4>
+  <!-- store -->
+  <div id="store" class="store">
+    <h4 class="heading">Store:</h4>
 
-  <div class="product-container">
+    <div class="product-container">
 
- {% for i in product %}
+      {% for i in product %}
 
-    <div class="product-card">
-      <img src="{{i.image_url}}" alt="Product Name" class="product-image">
-      <h3 class="product-name">{{i.title}}</h3>
-      <p class="product-description">{{i.description|truncatewords:10}}</p>
-      <div class="product-price">₹ {{i.price}} /{{i.qty}}{{i.unit}}</div>
-      <a style="text-decoration: none; color: white;" href="/product/{{i.id}}" class="add-to-cart-button">View</a>
+      <div class="product-card">
+        <img src="{{i.image_url}}" alt="Product Name" class="product-image">
+        <h3 class="product-name">{{i.title}}</h3>
+        <p class="product-description">{{i.description|truncatewords:10}}</p>
+        <div class="product-price">₹ {{i.price}} /{{i.qty}}{{i.unit}}</div>
+        <a style="text-decoration: none; color: white;" href="/product/{{i.id}}" class="add-to-cart-button">View</a>
+      </div>
+
+      {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
 
-  {% endfor %}
-      
-      
-      
-      
-
-      
-      
-      
-      
-      
-      
-      
-    </div>
-
-</div>
+  </div>
 </div>
 
 {% endblock %}
