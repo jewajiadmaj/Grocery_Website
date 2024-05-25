@@ -118,7 +118,7 @@ def sign(request):
                 return render(request, 'sign.html')
                     
     return render(request, 'sign.html')
-def login(request):
+def loginc(request):
     if request.method == 'POST':
             email = request.POST.get('email')
             password = request.POST.get('password')
@@ -175,7 +175,7 @@ def signup(request):
 
 def logout(request):
     request.session.clear()
-    return redirect(login)
+    return redirect(loginc)
 
 def carts(request):
     customer_id = request.session.get('customer_id')
@@ -234,7 +234,7 @@ def carts(request):
                 order.save()
             ordermail=Notification.objects.filter(active=True)
             for ix in ordermail:
-                send_mail('Order Mail', f'New Oreder recived \n\n Customer Name: {customer.first_name} Order id: #{orderplacedid} \n \n Email: {customer.email}\n \n Payment Mode: COD \n\n Product amount {total} + Extra Charges {extra_amount} = {final_amount}  \n \n View order: https://jewajiadamji.pythonanywhere.com/dsearch/?query={orderplacedid}', settings.EMAIL_HOST_USER, [
+                send_mail('Order Mail', f'New Oreder recived \n\n Customer Name: {customer.first_name}\n\n Order id: #{orderplacedid} \n \n Email: {customer.email}\n \n Payment Mode: COD \n\n Product amount {total} + Extra Charges {extra_amount} = {final_amount}  \n \n View order: https://jewajiadamji.pythonanywhere.com/dsearch/?query={orderplacedid}', settings.EMAIL_HOST_USER, [
                   ix.email], fail_silently=False)
             return redirect('order')
   
@@ -349,7 +349,7 @@ def payment(request):
 
         ordermail = Notification.objects.filter(active=True)
         for ix in ordermail:
-            send_mail('Order Mail', f'New Order received from Customer Name: {customer.first_name} Order id: #{orderplacedid} \n \n Email: {customer.email} \n \n Payment Mode: Online \n \n Upi Id: {upid} Product amount {total} + Extra Charges {extra_amount} = {final_amount}  \n \n View order: https://jewajiadamji.pythonanywhere.com/dsearch/?query={orderplacedid}' , settings.EMAIL_HOST_USER, [ix.email], fail_silently=False)
+            send_mail('Order Mail', f'New Order received from Customer Name: {customer.first_name} Order id: #{orderplacedid} \n \n Email: {customer.email} \n \n Payment Mode: Online \n \n Upi Id: {upid}\n\n Product amount {total} + Extra Charges {extra_amount} = {final_amount}  \n \n View order: https://jewajiadamji.pythonanywhere.com/dsearch/?query={orderplacedid}' , settings.EMAIL_HOST_USER, [ix.email], fail_silently=False)
 
         # QR Code generation happens after form submission
         upi_link = f"upi://pay?pa=9829623144@okbizaxis&pn=JewajiAdamJi&tr={orderplacedid}&am={final_amount}&cu=INR"
@@ -372,6 +372,7 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        print(username,password)
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
@@ -433,9 +434,29 @@ def onlinepayment(request):
         o.active=False
         o.save()
     return render(request,'prepaidorder.html',{'order': order})
+
 @login_required
 def pastorderdashboard(request):
     order=Order.objects.filter(active=False)
     return render(request, 'pastorder.html', {'order': order})
 
+
+def privacy(request):
+    customer_id = request.session.get('customer_id')
+    if customer_id:
+        customer=Customer.objects.get(id=customer_id)
+    else:
+        customer=None
+    paras={'customer':customer}
+    return render(request, 'privacy.html', {'paras': paras})
+
+
+def terms(request):
+    customer_id = request.session.get('customer_id')
+    if customer_id:
+        customer=Customer.objects.get(id=customer_id)
+    else:
+        customer=None
+    paras={'customer':customer}
+    return render(request, 'terms&condition.html', {'paras': paras})
 

@@ -32,7 +32,9 @@ class Product(models.Model):
     description = models.TextField()
     active = models.BooleanField(default=True)
     qty = models.FloatField(default=0)
+    add_decimal = models.BooleanField(default=True)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE,blank=True)
+    
 
     def __str__(self):
         return self.title

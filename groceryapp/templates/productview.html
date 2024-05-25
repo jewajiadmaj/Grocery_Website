@@ -20,11 +20,21 @@
                     <form class="add-inputs" method="post">
                         {% csrf_token %}
                         <div class="quantity-controls">
+                            <br><br>
+                            <h6>Select Quantity:</h6>
+                            {% if product.add_decimal %}
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="changeQuantity(-0.5)">-</button>
+                            <input required type="number" class="form-control" id="cart_quantity" name="cart_quantity" value="1" min="0.5" max="10" step="0.5">
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="changeQuantity(0.5)">+</button>
+                            {% else %}
                             <button type="button" class="btn btn-secondary btn-sm" onclick="changeQuantity(-1)">-</button>
-                            <input type="number" class="form-control" id="cart_quantity" name="cart_quantity" value="1" min="0.5" max="10" step="0.5">
+                            <input required type="number" class="form-control" id="cart_quantity" name="cart_quantity" value="1" min="1" max="10" step="1">
                             <button type="button" class="btn btn-secondary btn-sm" onclick="changeQuantity(1)">+</button>
+                            {% endif %}
+                            
                         </div>
                         <input type="text" name="product_id" value="{{ product.id }}" hidden>
+                        <br><br>
                         <button name="add_to_cart" type="submit" class="btn btn-primary btn-lg">Add to cart</button>
                     </form>
                  
@@ -105,7 +115,7 @@
     <script>
         function changeQuantity(delta) {
             var input = document.getElementById('cart_quantity');
-            var currentValue = parseInt(input.value);
+            var currentValue = parseFloat(input.value);
             var newValue = currentValue + delta;
     
             if (newValue >= 1 && newValue <= 10) {
@@ -114,35 +124,6 @@
         }
     </script>
 
-    <script>
-        $(document).ready(function() {
-    $('#btn').click(function() {
-        $('#btn').toggleClass("cart_clk");
-
-    });
-    $("#btn").one("click", function() {
-        $('.cart .fa').attr('data-before', '1');
-    });
-
-    var prnum = $('.num').text();
-    $('.inc').click(function() {
-        if (prnum > 0) {
-            prnum++;
-            $('.num').text(prnum);
-            $('.cart .fa').attr('data-before', prnum);
-        }
-
-    });
-    $('.dec').click(function() {
-        if (prnum > 1) {
-            prnum--;
-            $('.num').text(prnum);
-            $('.cart .fa').attr('data-before', prnum);
-        }
-
-    });
-
-});
-    </script>
+   
 
 {% endblock %}
