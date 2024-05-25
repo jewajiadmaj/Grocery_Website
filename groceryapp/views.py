@@ -35,6 +35,26 @@ def about(request):
     paras={'customer':customer}
     return render(request, 'about.html',paras)
 
+def contact(request):
+    customer_id = request.session.get('customer_id')
+    if customer_id:
+        customer=Customer.objects.get(id=customer_id)
+    else:
+        customer=None
+    if request.method == 'POST':
+         fname = request.POST.get('fname')
+         lname = request.POST.get('lname')
+         email = request.POST.get('email')
+         contactnumber=request.POST.get('contactnumber')
+         message=request.POST.get('message')
+         ordermail=Notification.objects.filter(active=True)
+         for ix in ordermail:
+                send_mail('Contact Mail', f'Name: {fname} {lname}\n \n Email: {email}\n \n Contact: {contactnumber} \n \n Message:{message}', settings.EMAIL_HOST_USER, [
+                  ix.email], fail_silently=False)
+                return redirect(contact)
+    paras={'customer':customer}
+    return render(request, 'contact.html',paras)
+
 
 def product_view(request, product_id):
     customer_id = request.session.get('customer_id')
