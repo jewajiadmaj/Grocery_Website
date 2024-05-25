@@ -1,4 +1,229 @@
 {% extends 'base.html' %}
 {% block content %}
+<head>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8e0a2;
+}
+
+.hero-content {
+    max-width: 100%;
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.hero-content p {
+    margin-bottom: 20px;
+    color: #01153292;
+}
+
+.hero-buttons button {
+    margin-right: 10px;
+    margin-top: 25px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.hero-buttons button:first-child {
+    background-color: #022658;
+    color: white;
+}
+
+.hero-image img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.categories {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    margin-top: 25px;
+}
+
+.category {
+    text-align: center;
+    max-width: 80%;
+    margin-bottom: 20px;
+}
+
+.category p {
+    font-size: 15px;
+}
+
+.category .icon {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f1f1f1;
+}
+
+.stat {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.content {
+    margin: 0 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 15px;
+}
+
+.quote {
+    text-align: center;
+    font-style: italic;
+    margin: 50px 0;
+}
+
+@media (min-width: 768px) {
+    .hero {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .hero-content {
+        max-width: 50%;
+        text-align: left;
+    }
+
+    .hero-image img {
+        margin-top: 0;
+        margin-left: 18px;
+    }
+
+    .categories {
+        flex-direction: row;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .category {
+        max-width: 20%;
+        margin-bottom: 0;
+    }
+
+    .stats {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .stat {
+        margin-bottom: 0;
+    }
+
+    .content {
+        margin: 0 20px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: 17px;
+    }
+
+    .quote {
+        text-align: center;
+        font-style: italic;
+        margin: 50px 0;
+    }
+}
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Fresh products delivered to your<br>doorsteps</h1>
+            <p style="margin-top: 15px;">Everything that you need in your day-to-day life, is now just a click away. Fresh from us to your door steps in a short time.</p>
+            <div class="hero-buttons">
+                <a href="/"><button>View Products</button></a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1024-512,f_auto,q_auto:best/newscms/2017_26/2053956/170627-better-grocery-store-main-se-539p.jpg" alt="Woman reading a book">
+        </div>
+    </section>
     
-    {% endblock %}
+    <section class="categories">
+        <div class="category">
+            <div class="icon"><img src="../static/images/customer-service.png" style="height: 2em;"></div>
+            <h3 style="margin-top: 30px;">Best Customer Service</h3>
+            <p>We pride ourselves on the hospitality and the service we provide to our customers.</p>
+        </div>
+        <div class="category">
+            <div class="icon"><img src="../static/images/money.png" style="height: 2em;"></div>
+            <h3 style="margin-top: 30px;">Unmatched Rates of products</h3>
+            <p>We are unmatched in rates provided in the market. You will not find better price range than us.</p>
+        </div>
+        <div class="category">
+            <div class="icon"><img src="../static/images/exchange.png" style="height: 2em;"></div>
+            <h3 style="margin-top: 30px;">Exchange and Refund Policy</h3>
+            <p>We also provide exchange and refund policies to our customers which most of our competitors dont do.</p>
+        </div>
+        <div class="category">
+            <div class="icon"><img src="../static/images/knowledge.png" style="height: 2em;"></div>
+            <h3 style="margin-top: 30px;">Experience and Knowledge</h3>
+            <p>Serving in this market for the past 100 years, so we have plenty of knowledge and experience regarding the market as well as the quality of the products.</p>
+        </div>
+    </section>
+
+    <section style="background-color: #eaf6f5; margin: 50px;">
+        <div>
+            <br>
+            <h2 style="margin-left: 50px;"><img src="../static/images/male-user.png" style="height: 1.2em; margin-right: 10px;">About us</h2>
+        </div>
+        <div class="content">
+            <blockquote class="quote">"Always give your customer the quality and service they deserve"</blockquote>
+            <p>
+                These were the words that have always been our foundation at Jeewaji Adamji. From the time it all started, five generations prior,
+                we have stuck to this saying and will always follow this in the future as well. Because for us, customer always comes first.
+            </p>
+            <p>
+                Our shop was started years ago by Jeewaji, the namesake of the shop, in the market of Dhanmandi, Udaipur. A small shop with the 
+                dream of serving the best quality materials to our customer and expnading and growing the shop. And the journey started from there. 
+                With time and constant efforts we built trust with customers by giving them the best quality of products and service.The shop was passed 
+                to his sons and with each geneartion the shop expanded. And we built up from a small shop to what we are today.
+            </p>
+            <p>
+                Today we have two shops in the two of the major grocery market in Udaipur. In Dhanmandi, we have a retail shop to provide all kinds 
+                of products that you need in your day-to-day life. And the second shop is in Krishimandi, where we deal in wholesale. We provide you 
+                wholesale products including Wheat, rice, spices, dry fruits and all types of grocery items. Currently we are also serving restaurants,
+                cafes and hotels in Udaipur including some of the well known names such as Meera Restaurant, Sangria Cafe, Hotel Mewari Villa and Jalsa Restaurant. 
+                We also provide our services to caterers including the well known Nakoda caterers, Agarwal Caterers, Dalchand Caterers ,Virat caterers, Vishal caterers, Hazareshwer  caterers and many more 
+                as well as to companies such as Wooden Streets and Cognus Technologies.
+            </p>
+            <p>
+                Our services can now also be availed sitting at home, by using our newly launched website. All you have to do it pick your products and 
+                they will be delivered to your doorsteps.
+            </p>
+            <p>
+                We will keep on serving our customer with the quality and service they deserve but also keep on improving to make the experience even better 
+                and easier.
+            </p>
+            <br>
+        </div>
+    </section>
+</body>
+{% endblock %}
