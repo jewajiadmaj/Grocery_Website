@@ -315,7 +315,8 @@ def payment(request):
         order_product.append(product.id)
         order_name.append(product.title)
         order_qty.append(item['quantity'])
-        subtotal = float(product.price * item['quantity'])
+        p=float(product.price)
+        subtotal=float(p*item['quantity'])
         order_subtotal.append(subtotal)
         total.append(subtotal)
 
