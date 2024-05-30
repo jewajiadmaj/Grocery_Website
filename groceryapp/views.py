@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
+from django.core.paginator import Paginator
 # Create your views here.
 def index(request):
     customer_id = request.session.get('customer_id')
@@ -24,9 +25,15 @@ def index(request):
     category_id = request.GET.get('category')
     if category_id:
             product= Product.objects.filter(category = category_id, active=True)
+            paginator = Paginator(product, 21)  # Show 10 products per page
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
     else:
         product=Product.objects.filter(active=True)
-    paras={'category':category,'product':product,'customer':customer,'cartlen':cartlen}
+        paginator = Paginator(product, 21)  # Show 10 products per page
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+    paras={'category':category,'product':page_obj,'customer':customer,'cartlen':cartlen}
     return render(request, 'index.html',paras)
 
 def about(request):
@@ -220,7 +227,7 @@ def carts(request):
                 order.save()
             ordermail=Notification.objects.filter(active=True)
             for ix in ordermail:
-                send_mail('Order Mail', f'New Oreder recived \n\n Customer Name: {customer.first_name}\n\n Order id: #{orderplacedid} \n \n Email: {customer.email}\n \n Payment Mode: COD \n\n Product amount {total} + Extra Charges {extra_amount} = {final_amount}  \n \n View order: https://jewajiadamji.pythonanywhere.com/dsearch/?query={orderplacedid}', settings.EMAIL_HOST_USER, [
+                send_mail('Order Mail', f'New Oreder recived \n\n Customer Name: {customer.first_name}\n\n Order id: #{orderplacedid} \n \n Email: {customer.email}\n \n Payment Mode: COD \n\n Product amount {total} + Extra Charges {extra_amount} = {final_amount}  \n \n View order: https://www.jewajiadamji.com/dsearch/?query={orderplacedid}', settings.EMAIL_HOST_USER, [
                   ix.email], fail_silently=False)
             return redirect('order')
   
@@ -344,7 +351,7 @@ def payment(request):
 
         ordermail = Notification.objects.filter(active=True)
         for ix in ordermail:
-            send_mail('Order Mail', f'New Order received from Customer Name: {customer.first_name} Order id: #{orderplacedid} \n \n Email: {customer.email} \n \n Payment Mode: Online \n \n Upi Id: {upid}\n\n Product amount {total} + Extra Charges {extra_amount} = {final_amount}  \n \n View order: https://jewajiadamji.pythonanywhere.com/dsearch/?query={orderplacedid}' , settings.EMAIL_HOST_USER, [ix.email], fail_silently=False)
+            send_mail('Order Mail', f'New Order received from Customer Name: {customer.first_name} Order id: #{orderplacedid} \n \n Email: {customer.email} \n \n Payment Mode: Online \n \n Upi Id: {upid}\n\n Product amount {total} + Extra Charges {extra_amount} = {final_amount}  \n \n View order: https://www.jewajiadamji.com/dsearch/?query={orderplacedid}' , settings.EMAIL_HOST_USER, [ix.email], fail_silently=False)
 
         # QR Code generation happens after form submission
         upi_link = f"upi://pay?pa=9829623144@okbizaxis&pn=JewajiAdamJi&tr={orderplacedid}&am={final_amount}&cu=INR"
