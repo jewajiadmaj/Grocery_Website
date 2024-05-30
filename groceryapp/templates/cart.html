@@ -65,10 +65,14 @@
       <div class="summary-checkout">
         {% if customer %}
           {% if customer.address %}
+          {% if total > 1999  %}
           <form method="post">
           {% csrf_token %}
         <button class="checkout-cta">Cash On Delivery</button>
-      </form> 
+      </form>
+      {% else %}
+      <p>COD available on purchases over ₹1999</p> 
+      {% endif %}
       <br>
       <form method="post">
         {% csrf_token %}
