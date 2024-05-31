@@ -25,15 +25,15 @@ def index(request):
     category_id = request.GET.get('category')
     if category_id:
             product= Product.objects.filter(category = category_id, active=True)
-            paginator = Paginator(product, 21)  # Show 10 products per page
-            page_number = request.GET.get('page')
-            page_obj = paginator.get_page(page_number)
+            # paginator = Paginator(product, 21)  # Show 10 products per page
+            # page_number = request.GET.get('page')
+            # page_obj = paginator.get_page(page_number)
     else:
         product=Product.objects.filter(active=True)
-        paginator = Paginator(product, 21)  # Show 10 products per page
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-    paras={'category':category,'product':page_obj,'customer':customer,'cartlen':cartlen}
+        # paginator = Paginator(product, 21)  # Show 10 products per page
+        # page_number = request.GET.get('page')
+        # page_obj = paginator.get_page(page_number)
+    paras={'category':category,'product':product,'customer':customer,'cartlen':cartlen}
     return render(request, 'index.html',paras)
 
 def about(request):
