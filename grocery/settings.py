@@ -33,6 +33,8 @@ EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 ALLOWED_HOSTS = ['https://jewajiadamji.pythonanywhere.com/','*']
+CSRF_TRUSTED_ORIGINS = ['https://www.jewajiadamji.com','https://jewajiadamji.com']
+
 
 
 # Application definition
