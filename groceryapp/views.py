@@ -159,7 +159,7 @@ def signup(request):
                 last_name=last_name,
             )
         customer.save()
-        return redirect(login)
+        return redirect(loginc)
 
   
     return render(request, 'signup.html')
