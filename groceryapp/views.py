@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
 from django.core.paginator import Paginator
+import random
+import re
 # Create your views here.
 def index(request):
     customer_id = request.session.get('customer_id')
@@ -25,15 +27,15 @@ def index(request):
     category_id = request.GET.get('category')
     if category_id:
             product= Product.objects.filter(category = category_id, active=True)
-            # paginator = Paginator(product, 21)  # Show 10 products per page
-            # page_number = request.GET.get('page')
-            # page_obj = paginator.get_page(page_number)
+            paginator = Paginator(product, 21)  # Show 10 products per page
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
     else:
         product=Product.objects.filter(active=True)
-        # paginator = Paginator(product, 21)  # Show 10 products per page
-        # page_number = request.GET.get('page')
-        # page_obj = paginator.get_page(page_number)
-    paras={'category':category,'product':product,'customer':customer,'cartlen':cartlen}
+        paginator = Paginator(product, 21)  # Show 10 products per page
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+    paras={'category':category,'product':page_obj,'customer':customer,'cartlen':cartlen}
     return render(request, 'index.html',paras)
 
 def about(request):
@@ -64,9 +66,8 @@ def contact(request):
          message=request.POST.get('message')
          ordermail=Notification.objects.filter(active=True)
          for ix in ordermail:
-                send_mail('Contact Mail', f'Name: {fname} {lname}\n \n Email: {email}\n \n Contact: {contactnumber} \n \n Message:{message}', settings.EMAIL_HOST_USER, [
-                  ix.email], fail_silently=False)
-                return redirect(contact)
+                send_mail('Contact Mail', f'Name: {fname} {lname}\n \n Email: {email}\n \n Contact: {contactnumber} \n \n Message:{message}', settings.EMAIL_HOST_USER, [ ix.email], fail_silently=False)
+         return redirect(contact)
     paras={'customer':customer,'cartlen':cartlen}
     return render(request, 'contact.html',paras)
 
@@ -131,6 +132,74 @@ def loginc(request):
                 messages.error(request, 'Incorrect email or password. Please try again.')
                 return render(request, 'login.html')
     return render(request, 'login.html')
+
+def randomf():
+    pass
+
+
+def resetpassword(request):
+    if request.method == 'POST':
+        if 'email' in request.POST:
+            email = request.POST.get('email')
+            try:
+                user = Customer.objects.get(email=email)
+            except Customer.DoesNotExist:
+                return render(request, 'reset.html', {'error': 'Email not found.', 'step': 1})
+            
+            # Generate and send OTP
+            otp = random.randint(10000, 99999)
+      
+            
+            send_mail('Password Reset OTP',f'Your OTP is: {otp}' , settings.EMAIL_HOST_USER, [email], fail_silently=False)
+            # Store OTP and email in session
+            request.session['otp'] = otp
+            request.session['email'] = email
+            
+            return render(request, 'reset.html', {'step': 2})
+        
+        elif 'otp' in request.POST:
+            otp_input = request.POST.get('otp')
+            otp_session = request.session.get('otp')
+            
+            if otp_input and int(otp_input) == otp_session:
+                return render(request, 'reset.html', {'step': 3})
+            else:
+                return render(request, 'reset.html', {'error': 'Invalid OTP', 'step': 2})
+        
+        elif 'new_password' in request.POST:
+            new_password = request.POST.get('new_password')
+            email = request.session.get('email')
+            
+            try:
+                user = get_object_or_404(Customer, email=email)
+                user.password = new_password
+                user.save()
+                return redirect(loginc)
+            except Customer.DoesNotExist:
+                return render(request, 'reset.html', {'error': 'Error resetting password', 'step': 3})
+    
+    return render(request, 'reset.html', {'step': 1})
+
+def validate_password(password):
+     # Check for minimum length of 8 characters
+    if len(password) < 8:
+        return "Password must be at least 8 characters long."
+    # Check for at least one uppercase letter
+    if not re.search(r'[A-Z]', password):
+        return "Password must contain at least one uppercase letter."
+    
+    # Check for at least one symbol
+    if not re.search(r'[\W_]', password):
+        return "Password must contain at least one symbol."
+    
+    # Check for at least one numeric digit
+    if not re.search(r'[0-9]', password):
+        return "Password must contain at least one numeric digit."
+    
+    return "Password is valid."
+
+
+
 def signup(request):
     
     if request.method == 'POST':
@@ -140,16 +209,30 @@ def signup(request):
         mobile_number = request.POST.get('mobile_number')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
+        context = {
+            'email': email,
+            'mobile_number': mobile_number,
+            'first_name': first_name,
+            'last_name': last_name
+        }
+
+
         # Check if email already exists
         if Customer.objects.filter(email=email).exists():
             messages.error(request, 'email already exist ')
-            return redirect(signup)
+            return render(request,'signup.html', context)
         if password != password1:
             messages.error(request, 'Confirm password not matched')
-            return redirect(signup)
+            return render(request, 'signup.html', context)
+         # Validate password
+        password_validation_message = validate_password(password)
+        if password_validation_message != "Password is valid.":
+            messages.error(request, password_validation_message)
+            return render(request, 'signup.html', context)
+        
         if len(mobile_number) != 10:
             messages.error(request, 'Confirm phone Number')
-            return redirect(signup)
+            return render(request, 'signup.html', context)
             # Create a new Customer object and save it
         customer = Customer.objects.create(
                 email=email,
@@ -223,8 +306,9 @@ def carts(request):
             for i in range(len(order_product)):
                 order=Order(Orderplacedid=orderplacedid,Customer_id=customer_id,name=fullname,email=customer.email,mobile_number=customer.mobile_number,address=customer.address,product_id=order_product[i],product_name=order_name[i]
                        ,quantity=order_qty[i] ,product_sub_price=order_subtotal[i],payment_mode='COD')
-                print(fullname)
                 order.save()
+                send_mail(f'Order Confirm #{orderplacedid}', f'\n\n Thank you for your purchase. Your order has been successfully placed. \n\n Customer Name: {fullname}\n\n Order id: #{orderplacedid} \n \n  Payment Mode: COD \n\n Product amount {total} + Extra Charges {extra_amount} = ₹{final_amount}  \n \n View order: https://www.jewajiadamji.com/order/', settings.EMAIL_HOST_USER, 
+                        [customer.email], fail_silently=False)
             ordermail=Notification.objects.filter(active=True)
             for ix in ordermail:
                 send_mail('Order Mail', f'New Oreder recived \n\n Customer Name: {customer.first_name}\n\n Order id: #{orderplacedid} \n \n Email: {customer.email}\n \n Payment Mode: COD \n\n Product amount {total} + Extra Charges {extra_amount} = {final_amount}  \n \n View order: https://www.jewajiadamji.com/dsearch/?query={orderplacedid}', settings.EMAIL_HOST_USER, [
@@ -268,7 +352,6 @@ def order(request):
         customer=Customer.objects.get(id=customer_id)
     else:
         customer=None
-    print(customer_id)
     order = Order.objects.filter(Customer_id = customer_id,active=True)
     total=0
     Orderplacedid=""
@@ -348,6 +431,8 @@ def payment(request):
         for i in range(len(order_product)):
             order = Order(Orderplacedid=orderplacedid, Customer_id=customer_id, name=fullname, email=customer.email, mobile_number=customer.mobile_number, address=customer.address, product_id=order_product[i], product_name=order_name[i], quantity=order_qty[i], product_sub_price=order_subtotal[i],online_payment=True, upiId=upid, payment_mode='online')
             order.save()
+            send_mail(f'Order Confirm #{orderplacedid}', f'\n\n Thank you for your purchase. Your order has been successfully placed. \n\n Customer Name: {fullname}\n\n Order id: #{orderplacedid} \n \n  Payment Mode: Online \n \n Upi Id: {upid} \n\n Product amount {total} + Extra Charges {extra_amount} = ₹{final_amount}  \n \n View order: https://www.jewajiadamji.com/order/ \n\n We will check the amount received and only then will we place your order for delivery. For any other queries, kindly contact us on our contact site: https://www.jewajiadamji.com/contact/', settings.EMAIL_HOST_USER, 
+                        [customer.email], fail_silently=False)
 
         ordermail = Notification.objects.filter(active=True)
         for ix in ordermail:
@@ -374,7 +459,6 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print(username,password)
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
