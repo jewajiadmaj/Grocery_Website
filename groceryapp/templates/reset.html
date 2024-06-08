@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="data">
+    {% if step == 1 %}
+    <h2>Enter your email to reset your password</h2>
+
+    <form style="padding: 2px; display: flex;" method="post" action="">
+        {% csrf_token %}
+        <div class="input-group has-validation">
+            <span class="input-group-text">Enter E-mail</span>
+            <div class="form-floating">
+                <input class="form-control " type="email" name="email" required placeholder="Enter your email">
+            </div>
+            <button type="submit" class="btn btn-outline-success">Submit</button>
+        </div>
+    </form>
+    {% elif step == 2 %}
+    <h2>OTP sent to your email</h2>
+    <h6>Kindly check your email</h6>
+
+    <form style="padding: 2px; display: flex;" method="post" action="">
+        {% csrf_token %}
+        <div class="input-group has-validation">
+            <span class="input-group-text">Enter OTP</span>
+            <div class="form-floating">
+                <input class="form-control "type="text" name="otp" required placeholder="Enter OTP" >
+            </div>
+            <button type="submit" class="btn btn-outline-success">Verify OTP</button>
+        </div>
+    </form>
+
+    {% elif step == 3 %}
+    <h2>Set a new password</h2>
+
+    <form style="padding: 2px; display: flex;" method="post" action="">
+        {% csrf_token %}
+        <div class="input-group has-validation">
+            <span class="input-group-text">New Password</span>
+            <div class="form-floating">
+                <input class="form-control" type="password" name="new_password" required placeholder="Enter new password" >
+            </div>
+            <button type="submit" class="btn btn-outline-success">Reset Password</button>
+        </div>
+    </form>
+    {% endif %}
+
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+</div>
+{% endblock %}
