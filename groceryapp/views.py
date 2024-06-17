@@ -118,8 +118,8 @@ def loginc(request):
                 customer = Customer.objects.get(email=email)
             except Customer.DoesNotExist:
                 # Handle case where email doesn't exist
-                messages.error(request, 'Incorrect email or password. Please try again.')
-                return render(request, 'sign.html')
+                messages.error(request, 'E-mail not matched. Please try again.')
+                return render(request, 'login.html')
 
             if password == customer.password:
                 # Passwords match, login successful
