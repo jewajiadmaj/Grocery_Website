@@ -313,6 +313,7 @@ def carts(request):
             for ix in ordermail:
                 send_mail('Order Mail', f'New Oreder recived \n\n Customer Name: {customer.first_name}\n\n Order id: #{orderplacedid} \n \n Email: {customer.email}\n \n Payment Mode: COD \n\n Product amount {total} + Extra Charges {extra_amount} = {final_amount}  \n \n View order: https://www.jewajiadamji.com/dsearch/?query={orderplacedid}', settings.EMAIL_HOST_USER, [
                   ix.email], fail_silently=False)
+            del request.session['cart']
             return redirect('order')
   
 
@@ -332,7 +333,6 @@ def account(request):
 
     if request.method == 'POST':
         user.email = request.POST.get('email')
-        user.password = request.POST.get('password')
         user.mobile_number = request.POST.get('mobile_number')
         user.first_name = request.POST.get('first_name')
         user.last_name = request.POST.get('last_name')
