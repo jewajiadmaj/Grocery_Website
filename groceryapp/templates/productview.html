@@ -23,13 +23,17 @@
                             <br><br>
                             <h6>Select Quantity:</h6>
                             {% if product.add_decimal %}
-                            <button type="button" class="btn btn-secondary btn-sm" onclick="changeQuantity(-0.5)">-</button>
-                            <input required type="number" class="form-control" id="cart_quantity" name="cart_quantity" value="1" min="0.5" max="10" step="0.5">
-                            <button type="button" class="btn btn-secondary btn-sm" onclick="changeQuantity(0.5)">+</button>
+                            <div style="display:flex;">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="changeQuantity(-0.5)">-</button>
+                            <input required type="number" class="form-control mx-2" id="cart_quantity" readonly name="cart_quantity" value="1" min="0.5" max="10" step="0.5">
+                            <button type="button" class="btn btn-success btn-sm" onclick="changeQuantity(0.5)">+</button>
+                            </div>
                             {% else %}
-                            <button type="button" class="btn btn-secondary btn-sm" onclick="changeQuantity(-1)">-</button>
-                            <input required type="number" class="form-control" id="cart_quantity" name="cart_quantity" value="1" min="1" max="10" step="1">
-                            <button type="button" class="btn btn-secondary btn-sm" onclick="changeQuantity(1)">+</button>
+                            <div style="display:flex;">
+                            <button type="button" class="btn btn-danger btn-sm mx-2" onclick="changeQuantity(-1)">-</button>
+                            <input required type="number" class="form-control" id="cart_quantity" readonly name="cart_quantity" value="1" min="1" max="10" step="1">
+                            <button type="button" class="btn btn-success btn-sm" onclick="changeQuantity(1)">+</button>
+                            </div>
                             {% endif %}
                             
                         </div>
@@ -86,14 +90,15 @@
        {% for i in similar_category %}
 
             {% if i.id != product.id %}
-      
+
+          <a style="text-decoration: none; color: black;" href="/product/{{i.id}}">
           <div class="product-card">
             <img src="{{i.image_url}}" alt="Product Name" class="product-image">
             <h3 class="product-name">{{i.title}}</h3>
             <p class="product-description">{{i.description|truncatewords:10}}</p>
             <div class="product-price">₹ {{i.price}} /{{i.qty}}{{i.unit}}</div>
-            <a style="text-decoration: none; color: white;" href="/product/{{i.id}}" class="add-to-cart-button">View</a>
           </div>
+        </a>
           {% endif %}
       
         {% endfor %}
