@@ -33,7 +33,7 @@
             All Products
           </a>
           {% for i in category %}
-          <a style="text-transform: lowercase;;" href="/?category={{i.id}}#store" class="list-group-item list-group-item-action">{{i.name}}</a>
+          <a  href="/?category={{i.id}}#store" class="list-group-item list-group-item-action">{{i.name}}</a>
 
           {% endfor %}
 
@@ -61,7 +61,7 @@
       <a style="text-decoration: none; color: black;" href="/product/{{i.id}}">
       <div class="product-card">
         <img src="{{i.image_url}}" alt="Product Name" class="product-image">
-        <h3 class="product-name">{{i.title}}</h3>
+        <h3 style="text-transform: capitalize;" class="product-name">{{i.title}}</h3>
         <p class="product-description">{{i.description|truncatewords:10}}</p>
         <div style="text-align: center;" class="product-price">₹ {{i.price}} /{{i.qty}}{{i.unit}}</div>
         <!-- <a style="text-decoration: none; color: white;" href="/product/{{i.id}}" class="add-to-cart-button">View</a> -->
