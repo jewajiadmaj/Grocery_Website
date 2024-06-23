@@ -133,8 +133,6 @@ def loginc(request):
                 return render(request, 'login.html')
     return render(request, 'login.html')
 
-def randomf():
-    pass
 
 
 def resetpassword(request):
@@ -487,7 +485,7 @@ def payment(request):
         qr_img_base64 = base64.b64encode(buffer.getvalue()).decode()
         img_tag = f'<img src="data:image/png;base64,{qr_img_base64}" alt="QR Code">'
         show_qr = True
-
+        del request.session['cart']
         return render(request, 'payment.html', {'cartlen':cartlen,'customer': customer,'show_qr': show_qr, 'img_tag': img_tag,'orderplacedid':orderplacedid,'total':total})
 
     return render(request, 'payment.html', {'cartlen':cartlen,'customer': customer,'show_qr': show_qr, 'img_tag': img_tag})
