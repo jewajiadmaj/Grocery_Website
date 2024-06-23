@@ -2,6 +2,11 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+ <style>
+    .spinner-border.custom-spinner {
+      color: #ffa500; /* Custom spinner color */
+    }
+  </style>
 {% if products %}
 <main>
   <div class="basket">
@@ -68,8 +73,26 @@
           {% if total > 1999  %}
           <form method="post">
           {% csrf_token %}
-        <button class="checkout-cta">Cash On Delivery</button>
+          <button data-bs-toggle="modal" data-bs-target="#staticBackdrop"   class="checkout-cta">Cash On Delivery</button>
       </form>
+
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+           
+            <div class="modal-body text-center">
+              <div class="spinner-border text-primary" role="status">
+                <span class="sr-only"></span>
+              </div>
+              <p>Order Processing, please wait...</p>
+            </div>
+            </div>
+        
+          </div>
+        </div>
+      </div>
+
+       
       {% else %}
       <p>COD available on purchases over ₹1999</p> 
       {% endif %}
@@ -100,6 +123,14 @@
 
 {% endif %}
 
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- <script>
+  document.querySelector('.checkout-cta').addEventListener('click', function() {
+    $('#loadingModal').modal('show');
+  });
+</script> -->
 
 <link rel="stylesheet" href="{% static 'js/cart.js' %}">
     

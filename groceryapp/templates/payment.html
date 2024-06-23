@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
 <div class="data">
     <!-- Conditional rendering based on show_qr flag -->
     {% if show_qr %}
+    
     <div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
         {{ img_tag|safe }}
+        <h6 style="text-align: center;">Total Amount: {{total}}</h6>
         <a class="btn btn-success" href="upi://pay?pa=9829623144@okbizaxis&pn=JewajiAdamJi&tr={{orderplacedid}}&am={{total}}&cu=INR">Pay Now</a>
     </div>
     {% else %}
@@ -16,11 +20,32 @@
           <input name="upiid" type="text" class="form-control " id="floatingInputGroup2" placeholder="Username" required>
           <label for="floatingInputGroup2">Enter Upi Id</label>
         </div>
-        <button type="submit" class="btn btn-outline-success">Submit</button>
+        <button type="submit" class=" btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Submit</button>
       </div>
     </form>
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+         
+          <div class="modal-body text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only"></span>
+            </div>
+            <p>Order Processing, please wait...</p>
+          </div>
+          </div>
+      
+        </div>
+      </div>
+    </div>
+
     {% endif %}
     <br>
 
 </div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 {% endblock %}

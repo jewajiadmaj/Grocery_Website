@@ -252,73 +252,110 @@ def logout(request):
     return redirect(loginc)
 
 def carts(request):
+    # Get customer info if logged in
     customer_id = request.session.get('customer_id')
+    customer = Customer.objects.get(id=customer_id) if customer_id else None
     
-    if customer_id:
-        customer = Customer.objects.get(id=customer_id)
-    else:
-        customer = None
+    # Initialize cart-related variables
     cart = request.session.get('cart', [])
-    cartlen=len(cart)
+    cartlen = len(cart)
     products = []
-    total=[]
-    order_product=[]
-    order_name=[]
-    order_qty=[]
-    order_subtotal=[]
+    order_details = {
+        'product_ids': [],
+        'names': [],
+        'quantities': [],
+        'subtotals': []
+    }
+    total = 0.0
+
+    # Process each item in the cart
     for item in cart:
         product = get_object_or_404(Product, id=item['product_id'])
-        order_product.append(product.id)
-        order_name.append(product.title)
-        order_qty.append(item['quantity'])
-        p=float(product.price)
-        subtotal=float(p*item['quantity'])
-        order_subtotal.append(subtotal)
-        products.append([product,item['quantity'],subtotal])
-        total.append(float(subtotal))
-    
-    total=sum(total)
+        quantity = item['quantity']
+        price = float(product.price)
+        subtotal = price * quantity
+        
+        order_details['product_ids'].append(product.id)
+        order_details['names'].append(product.title)
+        order_details['quantities'].append(quantity)
+        order_details['subtotals'].append(subtotal)
+        
+        products.append([product, quantity, subtotal])
+        total += subtotal
 
-    charge=Charge.objects.all()
-    extra_amount=float(0)
-    for i in charge:
-        extra_amount+=float(i.amount)
-    final_amount=total+extra_amount
+    # Calculate final amount including extra charges
+    extra_amount = sum(float(charge.amount) for charge in Charge.objects.all())
+    final_amount = total + extra_amount
 
     if request.method == 'POST':
         if 'product_id' in request.POST:
-            product_id_to_remove = int(request.POST.get('product_id'))  # Get the product_id to remove from the form submission
-            cart = request.session.get('cart', [])
+            # Remove product from cart
+            product_id_to_remove = int(request.POST.get('product_id'))
+            cart = [item for item in cart if item['product_id'] != product_id_to_remove]
+            request.session['cart'] = cart
+            return redirect(carts)
         
-            # Remove the product from the cart
-            updated_cart = [item for item in cart if item['product_id'] != product_id_to_remove]
-        
-            request.session['cart'] = updated_cart  # Update cart in session
-            return redirect(carts)  # Redirect to the cart page after removing the product
-
         elif 'payment' in request.POST:
             return redirect(payment)
+        
         else:
-            fullname=customer.first_name+" "+customer.last_name
-            x = datetime.datetime.now()
-            y=x.strftime("%d""%m""%Y")
-            orderplacedid=f"JJ{y}{customer_id}"
-            for i in range(len(order_product)):
-                order=Order(Orderplacedid=orderplacedid,Customer_id=customer_id,name=fullname,email=customer.email,mobile_number=customer.mobile_number,address=customer.address,product_id=order_product[i],product_name=order_name[i]
-                       ,quantity=order_qty[i] ,product_sub_price=order_subtotal[i],payment_mode='COD')
-                order.save()
-                send_mail(f'Order Confirm #{orderplacedid}', f'\n\n Thank you for your purchase. Your order has been successfully placed. \n\n Customer Name: {fullname}\n\n Order id: #{orderplacedid} \n \n  Payment Mode: COD \n\n Product amount {total} + Extra Charges {extra_amount} = ₹{final_amount}  \n \n View order: https://www.jewajiadamji.com/order/', settings.EMAIL_HOST_USER, 
-                        [customer.email], fail_silently=False)
-            ordermail=Notification.objects.filter(active=True)
-            for ix in ordermail:
-                send_mail('Order Mail', f'New Oreder recived \n\n Customer Name: {customer.first_name}\n\n Order id: #{orderplacedid} \n \n Email: {customer.email}\n \n Payment Mode: COD \n\n Product amount {total} + Extra Charges {extra_amount} = {final_amount}  \n \n View order: https://www.jewajiadamji.com/dsearch/?query={orderplacedid}', settings.EMAIL_HOST_USER, [
-                  ix.email], fail_silently=False)
+            # Place the order
+            fullname = f"{customer.first_name} {customer.last_name}"
+            order_id_prefix = "JJ"
+            order_date = datetime.datetime.now().strftime("%d%m%Y")
+            orderplacedid = f"{order_id_prefix}{order_date}{customer_id}"
+            
+            for i in range(len(order_details['product_ids'])):
+                Order.objects.create(
+                    Orderplacedid=orderplacedid,
+                    Customer_id=customer_id,
+                    name=fullname,
+                    email=customer.email,
+                    mobile_number=customer.mobile_number,
+                    address=customer.address,
+                    product_id=order_details['product_ids'][i],
+                    product_name=order_details['names'][i],
+                    quantity=order_details['quantities'][i],
+                    product_sub_price=order_details['subtotals'][i],
+                    payment_mode='COD'
+                )
+            
+            send_mail(
+                f'Order Confirm #{orderplacedid}',
+                f'\n\nThank you for your purchase. Your order has been successfully placed.'
+                f'\n\nCustomer Name: {fullname}\n\nOrder id: #{orderplacedid}'
+                f'\n\nPayment Mode: COD\n\nProduct amount {total} + Extra Charges {extra_amount} = ₹{final_amount}'
+                f'\n\nView order: https://www.jewajiadamji.com/order/',
+                settings.EMAIL_HOST_USER,
+                [customer.email],
+                fail_silently=False
+            )
+
+            for notification in Notification.objects.filter(active=True):
+                send_mail(
+                    'Order Mail',
+                    f'New Order received\n\nCustomer Name: {customer.first_name}\n\nOrder id: #{orderplacedid}'
+                    f'\n\nEmail: {customer.email}\n\nPayment Mode: COD\n\nProduct amount {total} + Extra Charges {extra_amount} = {final_amount}'
+                    f'\n\nView order: https://www.jewajiadamji.com/dsearch/?query={orderplacedid}',
+                    settings.EMAIL_HOST_USER,
+                    [notification.email],
+                    fail_silently=False
+                )
+
+            # Clear cart after order is placed
             del request.session['cart']
             return redirect('order')
-  
 
-    paras = {'charge':charge,'customer': customer, 'cart': cart, 'products': products,'total':total,'final_amount':final_amount,'cartlen':cartlen}
-    return render(request, 'cart.html', paras)  
+    paras = {
+        'charge': Charge.objects.all(),
+        'customer': customer,
+        'cart': cart,
+        'products': products,
+        'total': total,
+        'final_amount': final_amount,
+        'cartlen': cartlen
+    }
+    return render(request, 'cart.html', paras)
 
 def account(request):
     cart = request.session.get('cart', [])
