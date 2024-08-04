@@ -111,6 +111,9 @@ def product_view(request, product_id):
 
 
 def loginc(request):
+    cart = request.session.get('cart', [])
+    cartlen=len(cart)
+    paras={'cartlen':cartlen}
     if request.method == 'POST':
             email = request.POST.get('email')
             password = request.POST.get('password')
@@ -131,7 +134,7 @@ def loginc(request):
                 # Passwords don't match
                 messages.error(request, 'Incorrect email or password. Please try again.')
                 return render(request, 'login.html')
-    return render(request, 'login.html')
+    return render(request, 'login.html',paras)
 
 
 
@@ -180,15 +183,15 @@ def resetpassword(request):
 
 def validate_password(password):
      # Check for minimum length of 8 characters
-    if len(password) < 8:
-        return "Password must be at least 8 characters long."
+    if len(password) <= 6:
+        return "Password must be at least 6 characters long."
     # Check for at least one uppercase letter
     if not re.search(r'[A-Z]', password):
         return "Password must contain at least one uppercase letter."
     
     # Check for at least one symbol
-    if not re.search(r'[\W_]', password):
-        return "Password must contain at least one symbol."
+    # if not re.search(r'[\W_]', password):
+    #     return "Password must contain at least one symbol."
     
     # Check for at least one numeric digit
     if not re.search(r'[0-9]', password):
@@ -199,7 +202,9 @@ def validate_password(password):
 
 
 def signup(request):
-    
+    cart = request.session.get('cart', [])
+    cartlen=len(cart)
+    paras={'cartlen':cartlen}
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -243,7 +248,7 @@ def signup(request):
         return redirect(loginc)
 
   
-    return render(request, 'signup.html')
+    return render(request, 'signup.html',paras)
 
 def logout(request):
     request.session.clear()
