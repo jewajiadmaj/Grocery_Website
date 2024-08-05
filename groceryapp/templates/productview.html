@@ -25,7 +25,7 @@
                             {% if product.add_decimal %}
                             <div style="display:flex;">
                             <button type="button" class="btn btn-danger btn-sm" onclick="changeQuantity(-0.5)">-</button>
-                            <input required type="number" class="form-control mx-2" id="cart_quantity" readonly name="cart_quantity" value="1" min="0.5" max="10" step="0.5">
+                            <input required type="number" class="form-control mx-2" id="cart_quantity" readonly name="cart_quantity" value="0.5" min="0.5" max="10" step="0.5">
                             <button type="button" class="btn btn-success btn-sm" onclick="changeQuantity(0.5)">+</button>
                             </div>
                             {% else %}
@@ -123,7 +123,7 @@
             var currentValue = parseFloat(input.value);
             var newValue = currentValue + delta;
     
-            if (newValue >= 1 && newValue <= 10) {
+            if (newValue >= 0.5 && newValue <= 10) {
                 input.value = newValue;
             }
         }
