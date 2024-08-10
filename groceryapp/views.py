@@ -11,13 +11,18 @@ from django.conf import settings
 from django.core.paginator import Paginator
 import random
 import re
+from django.contrib import messages
 # Create your views here.
 def index(request):
+    
     customer_id = request.session.get('customer_id')
     if customer_id:
         customer=Customer.objects.get(id=customer_id)
     else:
         customer=None
+    order = Order.objects.filter(Customer_id = customer_id,active=True)
+    if order:
+        messages.success(request, 'Hooray!🎉🎉Your order is now being packed!')
 
     cart = request.session.get('cart', [])
     cartlen=len(cart)

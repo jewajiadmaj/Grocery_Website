@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="data">
+  {% if messages %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+     {% for message in messages %}
+     <strong class="{% if message.tags %}{{ message.tags }}{% endif %}">{{ message }} Please check your order status. <a style="color: #ffa500;" href="/order">Orders</a> </strong>
+  {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+{% endif %}
 
   <div style="width: 100%;  background-color: #d6cdbd;  border-radius: 20px;" class="classbbanner">
 
