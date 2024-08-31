@@ -193,12 +193,12 @@ input:focus, textarea:focus, keygen:focus, select:focus {
 						<form method="post">
                             {% csrf_token %}
 							<div class="clearfix">
-								<input required name="fname" class="col2 first" type="text" placeholder="FirstName">
-								<input required name="lname"  class="col2 last" type="text" placeholder="LastName">
+								<input required name="fname" class="col2 first" type="text" placeholder="FirstName" value="{{customer.first_name}}">
+								<input required name="lname"  class="col2 last" type="text" placeholder="LastName" value="{{customer.last_name}}">
 							</div>
 							<div class="clearfix">
-								<input required name="email"  class="col2 first" type="Email" placeholder="Email">
-								<input required name="contactnumber" class="col2 last" type="text" placeholder="Contact Number">
+								<input required name="email"  class="col2 first" type="Email" placeholder="Email" value="{{customer.email}}">
+								<input required name="contactnumber" class="col2 last" type="text" placeholder="Contact Number" value="{{customer.mobile_number}}">
 							</div>
 							<div class="clearfix">
 								<textarea name="message" placeholder="Your message here..." required name="textarea" id="" cols="30" rows="7"></textarea>
