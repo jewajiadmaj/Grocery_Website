@@ -8,7 +8,7 @@ urlpatterns = [
   path('', views.index, name='home'),
   path('product/<int:product_id>/', views.product_view, name='product_view'),
    path('about/', views.about, name='about'),
-   path('contact/', views.contact, name='about'),
+   path('contact/', auth_middleware(views.contact), name='about'),
    
    path('loginc/', views.loginc, name='loginc'),
    path('reset/', views.resetpassword, name='reset'),
